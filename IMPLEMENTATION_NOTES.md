@@ -45,10 +45,10 @@ the dupe-loop recipe is disabled, zero Delightful-Compat datapack errors).
 ## Compatibility rules added (5 unification groups + 1 conflict)
 | Group / conflict | Canonical | Members | JEI hide? |
 | --- | --- | --- | --- |
-| sweet_potato | `peruviansdelight:camote` | camote (+ placeholders) | yes |
+| sweet_potato | `peruviansdelight:camote` | camote, `veggiesdelight:sweet_potato` (+ placeholders) | yes |
 | dough | `farmersdelight:wheat_dough` | wheat_dough, `ramadandelight:small_dough` | no |
 | milk | `farmersdelight:milk_bottle` | milk_bottle, `minecraft:milk_bucket` | no |
-| mashed_potatoes | `moredelight:mashed_potatoes` | more + `slavic_delight:mashed_potatoes` | yes |
+| mashed_potatoes | `moredelight:mashed_potatoes` | more + slavic + `veggiesdelight:mashed_potatoes` | yes |
 | pancakes | `oaksdelight:pancakes` | oaks + `slavic_delight:pancakes` | yes |
 | conflict: dough_dupe_loop_ramadan | — | disables `ramadandelight:small_dough_from_dough`, adds cutting-board replacement | — |
 

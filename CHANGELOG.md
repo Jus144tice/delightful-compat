@@ -4,6 +4,28 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-06-05
+
+### Added
+- Support for six more Delight addons (declared as **optional** dependencies, verified against their
+  NeoForge 1.21.1 jars): Arbitrary Delight (`arbitrarydelight`), Veggies Delight (`veggiesdelight`),
+  End's Delight (`ends_delight`), Chopper's Delight (`choppersdelight`), Chef's Delight (`chefsdelight`),
+  My Nether's Delight (`mynethersdelight`). Twelve Delight mods are now supported.
+- **Veggies Delight unification** (genuine new duplicates):
+  - `veggiesdelight:sweet_potato` folded into the `sweet_potato` group (a second real sweet potato beside
+    Peruvian's camote), unified via `c:crops/sweet_potato` + the new `c:foods/sweet_potato` tag.
+  - `veggiesdelight:mashed_potatoes` folded into the `mashed_potatoes` group (now More + Slavic + Veggies).
+
+### Fixed
+- **JEI: never hide a group's last visible item.** Non-canonical duplicates are now hidden only when the
+  group's canonical item actually exists; if the canonical's mod is absent, the remaining variants stay
+  visible (e.g. mashed potatoes when More Delight isn't installed but Slavic/Veggies are).
+
+### Notes
+- Arbitrary, End's and My Nether's Delight add only distinct dishes (no base-ingredient duplicates) and
+  interoperate through the common `c:` tags they already ship. Chef's and Chopper's Delight add no food
+  items. All are wired as optional deps so they load safely and in order; no item-level rules were needed.
+
 ## [1.0.0] - 2026-06-05
 
 First public release for **Minecraft 1.21.1 / NeoForge 21.1.x**. A compatibility / unification layer

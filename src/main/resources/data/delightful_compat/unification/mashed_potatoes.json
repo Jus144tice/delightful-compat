@@ -3,7 +3,8 @@
   "canonical": "moredelight:mashed_potatoes",
   "equivalents": [
     "moredelight:mashed_potatoes",
-    "slavic_delight:mashed_potatoes"
+    "slavic_delight:mashed_potatoes",
+    "veggiesdelight:mashed_potatoes"
   ],
   "tag": "c:foods/mashed_potatoes",
   "hideNonCanonicalInJei": true

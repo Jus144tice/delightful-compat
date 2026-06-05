@@ -75,6 +75,48 @@ ordering = "AFTER"
 side = "BOTH"
 versionRange = "[0,)"
 
+[[dependencies.delightful_compat]]
+modId = "arbitrarydelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "veggiesdelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "ends_delight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "choppersdelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "chefsdelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "mynethersdelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
 # --- JEI: optional, client-only integration for hiding duplicates + info pages. ---
 [[dependencies.delightful_compat]]
 modId = "jei"

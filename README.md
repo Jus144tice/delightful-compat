@@ -31,10 +31,16 @@ skipped.
 | Oaks Delight | `oaksdelight` | Its `c:foods/milk` / `c:foods/dough` pancake recipes are fixed by the milk + dough unification; pancakes duplicate unified. |
 | Ramadan Delight | `ramadandelight` | `small_dough` unified into `c:foods/dough`; its dupe-loop recipe resolved onto the cutting board. |
 | Peruvian's Delight | `peruviansdelight` | `camote` is the canonical sweet potato. |
-| More Delight | `moredelight` | `mashed_potatoes` unified with Slavic's; bread-slice/knife tags already merge. |
-| Slavic Delight | `slavic_delight` | `mashed_potatoes` + `pancakes` unified with More/Oaks. |
+| More Delight | `moredelight` | `mashed_potatoes` unified with Slavic/Veggies; bread-slice/knife tags already merge. |
+| Slavic Delight | `slavic_delight` | `mashed_potatoes` + `pancakes` unified with More/Oaks/Veggies. |
+| Veggies Delight | `veggiesdelight` | `sweet_potato` unified with Peruvian's camote; `mashed_potatoes` unified with More/Slavic. |
+| Arbitrary Delight | `arbitrarydelight` | Optional dep; distinct dishes (cheese, pasta) — interops via shared `c:` tags, no duplicates. |
+| End's Delight | `ends_delight` | Optional dep; End-themed dishes — interops via shared `c:` tags, no duplicates. |
+| My Nether's Delight | `mynethersdelight` | Optional dep; Nether dishes — interops via the `c:foods/dough` / `c:foods/pasta` tags it ships. |
+| Chef's Delight | `chefsdelight` | Optional dep; villager/mechanics mod, no food items to unify. |
+| Chopper's Delight | `choppersdelight` | Optional dep; chopping mechanics, no food items to unify. |
 
-All six are declared as **optional** dependencies, so any subset can be installed.
+All twelve are declared as **optional** dependencies, so any subset can be installed.
 
 ## What it does out of the box
 

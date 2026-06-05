@@ -1,0 +1,7 @@
+{
+  "__comment": "DelightfulCompat: Veggies Delight reads/populates c:foods/sweet_potato with only its own sweet_potato. Add Peruvian's camote (and others) so every sweet potato counts as food-grade in recipes keyed on this tag. Merges with Veggies' own entry; required:false keeps it safe when a mod is absent.",
+  "values": [
+    { "id": "peruviansdelight:camote", "required": false },
+    { "id": "veggiesdelight:sweet_potato", "required": false }
+  ]
+}

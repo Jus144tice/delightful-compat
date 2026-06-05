@@ -2,6 +2,7 @@
   "__comment": "DelightfulCompat: new unifying tag for sweet potatoes. In this mod set only Peruvian's Delight ships one ('camote'), so it is canonical. Other mods' sweet potatoes are listed (required:false) so they auto-unify IF present. Add a line here when a new mod adds a sweet potato.",
   "values": [
     { "id": "peruviansdelight:camote", "required": false },
+    { "id": "veggiesdelight:sweet_potato", "required": false },
     { "id": "croptopia:sweet_potato", "required": false }
   ]
 }

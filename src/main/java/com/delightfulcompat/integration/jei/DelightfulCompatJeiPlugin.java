@@ -77,6 +77,12 @@ public class DelightfulCompatJeiPlugin implements IModPlugin {
             if (!group.hideNonCanonicalInJei()) {
                 continue;
             }
+            // Only hide duplicates if the canonical item actually exists to unify toward. Otherwise
+            // (the canonical's mod isn't installed) hiding the others would leave the group with NO
+            // visible item — e.g. mashed potatoes when More Delight is absent but Slavic/Veggies are.
+            if (resolve(group.canonical()) == null) {
+                continue;
+            }
             for (ResourceLocation id : group.nonCanonicalEquivalents()) {
                 Item item = resolve(id);
                 if (item != null) {

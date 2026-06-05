@@ -16,9 +16,11 @@ large modpacks by:
 Everything is optional and crash-safe: every datapack patch is guarded by `neoforge:conditions`, and every
 mod dependency is `optional`. A missing Delight mod just means the relevant patch is skipped.
 
-**Supported mods** (rules verified by extracting the real jars): `farmersdelight`, `oaksdelight`,
-`ramadandelight`, `peruviansdelight`, `moredelight`, `slavic_delight`. JEI is an optional, compile-only
-integration.
+**Supported mods** (12; all declared optional, verified by extracting the real jars): `farmersdelight`,
+`oaksdelight`, `ramadandelight`, `peruviansdelight`, `moredelight`, `slavic_delight`, `arbitrarydelight`,
+`veggiesdelight`, `ends_delight`, `choppersdelight`, `chefsdelight`, `mynethersdelight`. The last six were
+added in 1.1.0; only `veggiesdelight` brought new duplicates (sweet potato + mashed potatoes) — the others
+add distinct dishes / no items and interop via shared `c:` tags. JEI is an optional, compile-only integration.
 
 Deeper prose lives in [README.md](README.md) (user-facing) and [IMPLEMENTATION_NOTES.md](IMPLEMENTATION_NOTES.md)
 (deliverables/limitations). This file is the **AI navigation map** — keep it terse and accurate.
@@ -119,10 +121,10 @@ key pattern `delightful_compat.jei.<group>`.
 ### Unification groups (`data/delightful_compat/unification/<group>.json`)
 | Group | Canonical | Members | Tag | JEI hide |
 | --- | --- | --- | --- | --- |
-| [sweet_potato](src/main/resources/data/delightful_compat/unification/sweet_potato.json) | `peruviansdelight:camote` | camote (+placeholders) | `c:crops/sweet_potato` | yes |
+| [sweet_potato](src/main/resources/data/delightful_compat/unification/sweet_potato.json) | `peruviansdelight:camote` | camote, `veggiesdelight:sweet_potato` (+placeholders) | `c:crops/sweet_potato` (+`c:foods/sweet_potato`) | yes |
 | [dough](src/main/resources/data/delightful_compat/unification/dough.json) | `farmersdelight:wheat_dough` | wheat_dough, `ramadandelight:small_dough` | `c:foods/dough` | no |
 | [milk](src/main/resources/data/delightful_compat/unification/milk.json) | `farmersdelight:milk_bottle` | milk_bottle, `minecraft:milk_bucket` | `c:foods/milk` | no |
-| [mashed_potatoes](src/main/resources/data/delightful_compat/unification/mashed_potatoes.json) | `moredelight:mashed_potatoes` | more + `slavic_delight:mashed_potatoes` | `c:foods/mashed_potatoes` | yes |
+| [mashed_potatoes](src/main/resources/data/delightful_compat/unification/mashed_potatoes.json) | `moredelight:mashed_potatoes` | more + slavic + `veggiesdelight:mashed_potatoes` | `c:foods/mashed_potatoes` | yes |
 | [pancakes](src/main/resources/data/delightful_compat/unification/pancakes.json) | `oaksdelight:pancakes` | oaks + `slavic_delight:pancakes` | `c:foods/pancakes` | yes |
 
 ### Tags (`data/c/tags/item/...`, all MERGE — no `replace`)
@@ -187,6 +189,12 @@ key pattern `delightful_compat.jei.<group>`.
 - **Two test guards enforce the cross-file invariants** — if you add a group/conflict and a test fails:
   `CompatRulesTest` ⇒ you forgot `CompatRules.BUNDLED_*`; `DatapackIntegrityTest` ⇒ you forgot the lang key,
   the `c:` tag file, or a replacement recipe. Fix the content, not the test.
+- **JEI hiding requires the canonical to exist.** `DelightfulCompatJeiPlugin#onRuntimeAvailable` skips a
+  group whose `canonical` item isn't registered, so it never hides a group's last visible item when the
+  canonical's mod is absent (e.g. mashed potatoes with More Delight missing). Keep this guard.
+- **A group's `tag` field is the primary unifying tag, but a group may rely on extra tags** (e.g.
+  sweet_potato also populates `c:foods/sweet_potato`). `DatapackIntegrityTest` only checks the `tag` field's
+  file exists; extra tag files are validated by the generic "all data JSON parses" walk.
 
 ---
 
