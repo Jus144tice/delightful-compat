@@ -1,0 +1,18 @@
+{
+  "__comment": "DelightfulCompat OVERRIDE of ramadandelight:small_dough_from_dough. Because we add small_dough to c:foods/dough, the original 'c:foods/dough -> 2x small_dough' recipe becomes a duplication loop. This override keeps the original ONLY when Farmer's Delight is absent (i.e. when our dough unification is not in play). When FD is present the neoforge:not condition fails and the recipe is dropped; small_dough is instead obtained via delightful_compat:small_dough_from_wheat_dough_cutting.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": { "type": "neoforge:mod_loaded", "modid": "farmersdelight" }
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    { "tag": "c:foods/dough" }
+  ],
+  "result": {
+    "count": 2,
+    "id": "ramadandelight:small_dough"
+  }
+}

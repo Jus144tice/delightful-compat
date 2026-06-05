@@ -1,0 +1,127 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'net.neoforged.moddev' version '2.0.141'
+    // Spotless drives the lint/format step (palantir-java-format ~= prettier for Java).
+    id 'com.diffplug.spotless' version '6.25.0'
+}
+
+version = project.modVersion
+group = project.modGroup
+base.archivesName = 'delightful-compat'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    // Needed for the JUnit test dependencies below.
+    mavenCentral()
+
+    // JEI (Just Enough Items) is published here. It is an OPTIONAL integration:
+    // we only compile against its API; the mod runs fine without JEI installed.
+    maven {
+        name = 'BlameJared (JEI, CraftTweaker, etc.)'
+        url = 'https://maven.blamejared.com'
+    }
+}
+
+neoForge {
+    version = project.neoForgeVersion
+
+    // Generates the runClient / runServer Gradle tasks used in the verification matrix.
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+        }
+    }
+
+    mods {
+        delightful_compat {
+            sourceSet sourceSets.main
+        }
+    }
+
+    // JUnit-based unit tests run with the NeoForge/Minecraft runtime on the test classpath, so tests
+    // can touch real platform types (e.g. ModConfigSpec in ConfigTest, the rule Codecs in
+    // CompatRulesTest) without standing up the game client.
+    unitTest {
+        enable()
+        testedMod = mods.delightful_compat
+    }
+}
+
+dependencies {
+    // --- Optional: JEI -------------------------------------------------------
+    // Compile only against the JEI API. We never hard-depend on JEI at runtime:
+    // the @JeiPlugin class is only constructed by JEI itself when it is present,
+    // so the core mod loads perfectly fine in a pack without JEI.
+    compileOnly "mezz.jei:jei-${project.minecraftVersion}-neoforge-api:${project.jeiVersion}"
+    // Pull the full JEI jar onto the dev run classpath so JEI cleanup can be tested
+    // in-game with ./gradlew runClient. runtimeOnly keeps it off the compile classpath
+    // (we only compile against the API) and out of the published jar's dependencies.
+    runtimeOnly "mezz.jei:jei-${project.minecraftVersion}-neoforge:${project.jeiVersion}"
+
+    // --- Test-only: JUnit 5 --------------------------------------------------
+    // junit-jupiter is the API + engine; the launcher is needed to run on Gradle.
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+}
+
+// --- DEV-ONLY smoke-test mods (never affects the published jar) ----------------
+// Drop Farmer's Delight + Delight addon jars into libs-dev/ to load them as mods in
+// ./gradlew runClient / runServer, so the conditional patches actually apply and can
+// be validated in-game / in the server log. Guarded: an empty/missing folder is a no-op.
+if (file('libs-dev').isDirectory()) {
+    file('libs-dev').listFiles()?.findAll { it.name.endsWith('.jar') }?.each { jar ->
+        dependencies.add('runtimeOnly', files(jar))
+    }
+}
+
+// Formatting / lint (palantir-java-format, 4-space / 120-col — "prettier for Java"). Folded into the
+// build: `spotlessApply` runs automatically before compilation (see compileJava below), so
+// `gradlew build` formats + compiles + tests in one go. `spotlessCheck` runs as part of `check`
+// (and therefore `build`) as the gate that fails on any unformatted/lint-dirty source.
+spotless {
+    java {
+        target 'src/**/*.java'
+        palantirJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-Xlint:deprecation'
+}
+
+tasks.named('compileJava') {
+    // Auto-format on every build/test: compiling depends on spotlessApply, so sources are always
+    // formatted before they are compiled (and therefore before the spotlessCheck gate in `check`).
+    dependsOn 'spotlessApply'
+}
+
+jar {
+    manifest {
+        attributes([
+            'Specification-Title'    : 'Delightful Compat',
+            'Specification-Vendor'   : 'delightful_compat',
+            'Specification-Version'  : '1',
+            'Implementation-Title'   : project.name,
+            'Implementation-Version' : project.version,
+            'Implementation-Vendor'  : 'delightful_compat'
+        ])
+    }
+}

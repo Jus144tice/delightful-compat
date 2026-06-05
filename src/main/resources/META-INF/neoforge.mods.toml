@@ -1,0 +1,84 @@
+## Delightful Compat — NeoForge mod metadata (Minecraft 1.21.1)
+##
+## IMPORTANT compatibility note:
+##   EVERY dependency below is declared as OPTIONAL (mandatory = false). Delightful
+##   Compat is a compatibility layer: it must load and behave gracefully whether or
+##   not Farmer's Delight, any Delight addon, or JEI is installed. The datapack
+##   patches themselves are additionally guarded with `neoforge:conditions`, so a
+##   missing mod simply means the relevant patch is skipped — never a crash.
+##
+## To support a NEW Delight addon, add another optional [[dependencies]] block at the
+## bottom (and add its ids to ModIds.java + drop in JSON rules/tags). Nothing here is
+## load-bearing for correctness — it only nudges mod load ordering.
+
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "Apache-2.0"
+issueTrackerURL = "https://github.com/Jus144tice/delightful-compat/issues"
+
+[[mods]]
+modId = "delightful_compat"
+version = "${file.jarVersion}"
+displayName = "Delightful Compat"
+authors = "delightful_compat"
+description = '''
+A compatibility / unification layer for Farmer's Delight and its "Delight" addons
+(Oaks, Ramadan, Peruvian, More, Slavic, ...). It unifies equivalent ingredients via
+common (c:) tags, picks a canonical item per duplicate group, resolves conflicting
+recipes (preferring to move one onto a Farmer's Delight station instead of deleting
+content), adds milk-bucket fallbacks where a milk-bottle item is missing, and cleans
+up JEI. Adds almost no new content of its own.
+'''
+
+# --- Farmer's Delight: the common parent. Optional + ordered AFTER so our tag/recipe
+#     patches layer on top of FD's own data. ---
+[[dependencies.delightful_compat]]
+modId = "farmersdelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[1.0,)"
+
+# --- Delight addons. All optional; we load AFTER each so our overrides win. ---
+[[dependencies.delightful_compat]]
+modId = "oaksdelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "ramadandelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "peruviansdelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "moredelight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "slavic_delight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+# --- JEI: optional, client-only integration for hiding duplicates + info pages. ---
+[[dependencies.delightful_compat]]
+modId = "jei"
+type = "optional"
+ordering = "AFTER"
+side = "CLIENT"
+versionRange = "[0,)"

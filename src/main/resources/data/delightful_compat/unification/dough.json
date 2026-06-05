@@ -1,0 +1,10 @@
+{
+  "group": "dough",
+  "canonical": "farmersdelight:wheat_dough",
+  "equivalents": [
+    "farmersdelight:wheat_dough",
+    "ramadandelight:small_dough"
+  ],
+  "tag": "c:foods/dough",
+  "hideNonCanonicalInJei": false
+}

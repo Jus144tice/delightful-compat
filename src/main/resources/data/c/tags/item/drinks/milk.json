@@ -1,0 +1,6 @@
+{
+  "__comment": "DelightfulCompat: add the vanilla milk bucket as a 'milk' so recipes keyed on c:drinks/milk (Farmer's Delight populates this with milk_bottle) also accept a plain bucket. Merges with FD's own c:drinks/milk entry.",
+  "values": [
+    { "id": "minecraft:milk_bucket", "required": false }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "delightful_compat.jei.sweet_potato": "Sweet Potato has been unified by Delightful Compat. Recipes accept sweet potatoes from any installed Delight mod, but this pack standardizes the output to Peruvian's Delight Sweet Potato (camote). Add more variants to the c:crops/sweet_potato tag.",
+  "delightful_compat.jei.dough": "Dough has been unified by Delightful Compat. Farmer's Delight Wheat Dough and Ramadan Delight Small Dough are both members of c:foods/dough, so dough-based recipes accept either. To avoid an item-duplication loop, the 'small dough from dough' crafting recipe was moved to the Cutting Board.",
+  "delightful_compat.jei.milk": "Milk has been unified by Delightful Compat. The Farmer's Delight Milk Bottle and the vanilla Milk Bucket both count as 'milk' (c:foods/milk and c:drinks/milk), so milk recipes work even if you only have buckets. If no milk-bottle item is installed, a milk-bucket cake recipe is provided as a fallback.",
+  "delightful_compat.jei.mashed_potatoes": "Mashed Potatoes has been unified by Delightful Compat. More Delight and Slavic Delight each add their own Mashed Potatoes; they are grouped under c:foods/mashed_potatoes and this pack standardizes on the More Delight version. The duplicate is hidden from JEI.",
+  "delightful_compat.jei.pancakes": "Pancakes has been unified by Delightful Compat. Oaks Delight and Slavic Delight each add their own Pancakes; they are grouped under c:foods/pancakes and this pack standardizes on the Oaks Delight version. The duplicate is hidden from JEI."
+}

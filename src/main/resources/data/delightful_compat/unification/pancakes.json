@@ -1,0 +1,10 @@
+{
+  "group": "pancakes",
+  "canonical": "oaksdelight:pancakes",
+  "equivalents": [
+    "oaksdelight:pancakes",
+    "slavic_delight:pancakes"
+  ],
+  "tag": "c:foods/pancakes",
+  "hideNonCanonicalInJei": true
+}

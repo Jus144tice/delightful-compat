@@ -1,0 +1,14 @@
+{
+  "id": "dough_dupe_loop_ramadan",
+  "__comment": "Unifying ramadandelight:small_dough into c:foods/dough turns Ramadan's 'small_dough_from_dough' (1x c:foods/dough -> 2x small_dough) into an item-duplication loop. We disable that recipe (override at data/ramadandelight/recipe/small_dough_from_dough.json) and re-add a non-duplicating cutting-board path on a Farmer's Delight station, preserving access to small_dough.",
+  "conflictingRecipes": [
+    "ramadandelight:small_dough_from_dough"
+  ],
+  "replacementRecipes": [
+    "delightful_compat:small_dough_from_wheat_dough_cutting"
+  ],
+  "requiredMods": [
+    "farmersdelight",
+    "ramadandelight"
+  ]
+}

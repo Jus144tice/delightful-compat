@@ -1,0 +1,10 @@
+{
+  "group": "sweet_potato",
+  "canonical": "peruviansdelight:camote",
+  "equivalents": [
+    "peruviansdelight:camote",
+    "croptopia:sweet_potato"
+  ],
+  "tag": "c:crops/sweet_potato",
+  "hideNonCanonicalInJei": true
+}

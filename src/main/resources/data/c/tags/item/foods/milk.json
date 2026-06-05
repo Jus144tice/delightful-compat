@@ -1,0 +1,7 @@
+{
+  "__comment": "DelightfulCompat: Oaks (and other) Delight recipes read c:foods/milk, but Farmer's Delight only populates c:drinks/milk. This bridges the gap AND provides the milk-bucket fallback so milk recipes craft even with just a vanilla bucket. Tags merge across mods (no replace), so this is additive. required:false => a missing item is silently ignored (no datapack error when a mod is absent).",
+  "values": [
+    { "id": "minecraft:milk_bucket", "required": false },
+    { "id": "farmersdelight:milk_bottle", "required": false }
+  ]
+}

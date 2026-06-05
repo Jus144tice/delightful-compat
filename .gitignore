@@ -1,0 +1,25 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# NeoForge ModDevGradle
+run/
+runs/
+*.launch
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.eclipse/
+.settings/
+.classpath
+.project
+.vscode/
+bin/
+
+# OS
+.DS_Store
+Thumbs.db

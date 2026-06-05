@@ -1,0 +1,7 @@
+{
+  "__comment": "DelightfulCompat: More Delight and Slavic Delight each add their own 'Mashed Potatoes'. Unify them so recipes can target either via this tag, and JEI can hide the non-canonical duplicate. required:false => safe when a mod is absent.",
+  "values": [
+    { "id": "moredelight:mashed_potatoes", "required": false },
+    { "id": "slavic_delight:mashed_potatoes", "required": false }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "group": "milk",
+  "canonical": "farmersdelight:milk_bottle",
+  "equivalents": [
+    "farmersdelight:milk_bottle",
+    "minecraft:milk_bucket"
+  ],
+  "tag": "c:foods/milk",
+  "hideNonCanonicalInJei": false
+}

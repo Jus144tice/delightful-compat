@@ -1,0 +1,7 @@
+{
+  "__comment": "DelightfulCompat: Oaks Delight and Slavic Delight each add their own 'Pancakes'. Unify them so recipes can target either via this tag, and JEI can hide the non-canonical duplicate. required:false => safe when a mod is absent.",
+  "values": [
+    { "id": "oaksdelight:pancakes", "required": false },
+    { "id": "slavic_delight:pancakes", "required": false }
+  ]
+}

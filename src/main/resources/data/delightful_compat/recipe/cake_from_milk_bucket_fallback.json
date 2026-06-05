@@ -1,0 +1,26 @@
+{
+  "__comment": "DelightfulCompat MILK-BUCKET FALLBACK (the canonical example of conditional-loading requested in the spec). Farmer's Delight's 'cake_from_milk_bottle' requires farmersdelight:milk_bottle. If a pack lacks the mod/item that provides a milk bottle, this recipe loads instead and lets you craft a cake from plain milk buckets. The neoforge:not + neoforge:item_exists condition means it ONLY loads when farmersdelight:milk_bottle is absent, so it never conflicts when the bottle exists. Copy this file as a template for other 'needs milk bottle' recipes in your pack.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": { "type": "neoforge:item_exists", "item": "farmersdelight:milk_bottle" }
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "pattern": [
+    "MMM",
+    "SES",
+    "WWW"
+  ],
+  "key": {
+    "M": { "item": "minecraft:milk_bucket" },
+    "S": { "item": "minecraft:sugar" },
+    "E": { "item": "minecraft:egg" },
+    "W": { "item": "minecraft:wheat" }
+  },
+  "result": {
+    "id": "minecraft:cake",
+    "count": 1
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "__comment": "DelightfulCompat REPLACEMENT for the disabled ramadandelight:small_dough_from_dough. Moved onto the Farmer's Delight cutting board (a non-crafting-grid station) and made 1:1 so it preserves a dough->small_dough path WITHOUT the duplication loop. Loads only when both dough items exist (item_exists implies the owning mod is present).",
+  "neoforge:conditions": [
+    { "type": "neoforge:item_exists", "item": "farmersdelight:wheat_dough" },
+    { "type": "neoforge:item_exists", "item": "ramadandelight:small_dough" }
+  ],
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    { "item": "farmersdelight:wheat_dough" }
+  ],
+  "result": [
+    { "item": { "count": 1, "id": "ramadandelight:small_dough" } }
+  ],
+  "tool": { "tag": "c:tools/knife" }
+}
