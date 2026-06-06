@@ -1,0 +1,26 @@
+{
+  "__comment": "DelightfulCompat unification: peruviansdelight:cortar/camote_cortado (ingredients->c: tag). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "tag": "c:crops/sweet_potato"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 2,
+        "id": "peruviansdelight:camote_cortado"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "c:tools/knife"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "peruviansdelight"
+    }
+  ]
+}

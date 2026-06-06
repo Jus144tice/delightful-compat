@@ -1,0 +1,20 @@
+{
+  "__comment": "DelightfulCompat unification: veggiesdelight:baked_sweet_potato_from_smoking (ingredients->c: tag). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 100,
+  "experience": 0.35,
+  "ingredient": {
+    "tag": "c:crops/sweet_potato"
+  },
+  "result": {
+    "count": 1,
+    "id": "veggiesdelight:baked_sweet_potato"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "veggiesdelight"
+    }
+  ]
+}

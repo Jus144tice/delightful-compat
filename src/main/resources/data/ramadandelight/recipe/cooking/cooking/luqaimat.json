@@ -1,0 +1,38 @@
+{
+  "__comment": "DelightfulCompat unification: ramadandelight:cooking/cooking/luqaimat (ingredients->c: tag). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "type": "farmersdelight:cooking",
+  "experience": 1.0,
+  "ingredients": [
+    {
+      "tag": "c:foods/dough"
+    },
+    {
+      "tag": "c:foods/dough"
+    },
+    {
+      "tag": "c:foods/dough"
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "minecraft:honey_bottle"
+        },
+        {
+          "item": "ramadandelight:date_syrup"
+        }
+      ]
+    }
+  ],
+  "recipe_book_tab": "misc",
+  "result": {
+    "count": 1,
+    "id": "ramadandelight:luqaimat"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ramadandelight"
+    }
+  ]
+}

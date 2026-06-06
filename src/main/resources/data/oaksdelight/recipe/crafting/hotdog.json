@@ -1,0 +1,27 @@
+{
+  "__comment": "DelightfulCompat unification: oaksdelight:crafting/hotdog (ingredients->c: tag). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "a",
+    "b"
+  ],
+  "key": {
+    "a": {
+      "tag": "c:foods/toast"
+    },
+    "b": {
+      "tag": "c:foods/cooked_sausage"
+    }
+  },
+  "result": {
+    "id": "oaksdelight:hotdogs",
+    "count": 1
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "oaksdelight"
+    }
+  ]
+}

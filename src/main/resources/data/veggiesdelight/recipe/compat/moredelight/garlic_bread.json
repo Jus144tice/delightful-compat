@@ -1,0 +1,27 @@
+{
+  "__comment": "DelightfulCompat unification: veggiesdelight:compat/moredelight/garlic_bread (ingredients->c: tag). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "moredelight"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "veggiesdelight"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "veggiesdelight:roasted_garlic_clove"
+    },
+    {
+      "tag": "c:foods/toast"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "veggiesdelight:garlic_bread"
+  }
+}

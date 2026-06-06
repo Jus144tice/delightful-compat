@@ -1,6 +1,7 @@
 {
   "__comment": "DelightfulCompat: Ramadan Delight's small_dough is NOT in c:foods/dough (only FD's wheat_dough is), so it can't be used in Oaks/FD dough recipes. Add it here to unify dough. Merges with FD's c:foods/dough. NOTE: adding small_dough here makes ramadandelight:small_dough_from_dough a 1->2 duplication loop, which is why that recipe is disabled (see data/ramadandelight/recipe/small_dough_from_dough.json) and replaced with a cutting-board recipe.",
   "values": [
-    { "id": "ramadandelight:small_dough", "required": false }
+    { "id": "ramadandelight:small_dough", "required": false },
+    { "id": "farmersdelight:wheat_dough", "required": false }
   ]
 }

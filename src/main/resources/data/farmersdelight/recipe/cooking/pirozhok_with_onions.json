@@ -1,0 +1,26 @@
+{
+  "__comment": "DelightfulCompat unification: farmersdelight:cooking/pirozhok_with_onions (ingredients->c: tag). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "type": "farmersdelight:cooking",
+  "experience": 1.0,
+  "ingredients": [
+    {
+      "tag": "c:foods/dough"
+    },
+    {
+      "item": "farmersdelight:onion"
+    },
+    {
+      "item": "slavic_delight:boiled_egg"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "slavic_delight:pirozhok_with_onions"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "farmersdelight"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "__comment": "DelightfulCompat unification: slavic_delight:mash_and_patty (ingredients->c: tag). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "slavic_delight:pork_patty"
+    },
+    {
+      "tag": "c:foods/mashed_potatoes"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "slavic_delight:mash_and_patty"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "slavic_delight"
+    }
+  ]
+}

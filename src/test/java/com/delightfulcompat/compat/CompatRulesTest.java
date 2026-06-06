@@ -28,7 +28,7 @@ class CompatRulesTest {
     void allBundledGroupsParse() {
         Set<String> names =
                 CompatRules.groups().stream().map(UnificationGroup::group).collect(Collectors.toSet());
-        assertEquals(Set.of("sweet_potato", "dough", "milk", "mashed_potatoes", "pancakes"), names);
+        assertEquals(Set.of("sweet_potato", "dough", "milk", "mashed_potatoes", "pancakes", "toast"), names);
     }
 
     @Test

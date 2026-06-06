@@ -4,6 +4,36 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - 2026-06-05
+
+### Added
+- **Real ingredient interchange (recipe rewriting).** Until now, unification only *populated* `c:` tags —
+  but the Delight addons' recipes hardcode specific items (e.g. `moredelight:toast_with_egg` literally
+  requires `moredelight:toast`), so the tags went unread and the items were not actually interchangeable.
+  This release overrides every consuming recipe across the installed Delight addons to read the group's
+  `c:` tag instead of the hardcoded item, so **any equivalent item satisfies any recipe**. 47 recipe
+  overrides across `farmersdelight`, `oaksdelight`, `ramadandelight`, `peruviansdelight`, `moredelight`,
+  `slavic_delight`, `arbitrarydelight`, `veggiesdelight`. Each is self-gated (`mod_loaded` of the owning
+  mod, plus `item_exists` of the canonical for output canonicalization) so it only loads when the original
+  recipe would, and conversion recipes (e.g. `milk_bucket_from_bottles`) are detected and left untouched.
+- **New `toast` unification group** — `oaksdelight:toast`, `moredelight:toast`, `mynethersdelight:toasts`
+  unified via the new `c:foods/toast` tag (canonical: Oak's Delight). Every toast-consuming recipe (toast
+  with egg/cheese/honey/…) now accepts any toast. Sixth unification group.
+- **Output canonicalization** for the true-duplicate groups (sweet potato, toast, mashed potatoes, pancakes):
+  recipes that produce a non-canonical variant are rewritten to output the canonical, so you stop
+  accumulating duplicates. Deliberately NOT applied to milk (would break `milk_bucket` semantics) or dough
+  (different sizes).
+
+### Fixed
+- `c:foods/dough` now explicitly lists `farmersdelight:wheat_dough` (previously relied on FD's nested
+  `#c:foods/dough/wheat` tag), so dough interchange never depends on another mod's tag structure.
+
+### Notes
+- This makes the unification actually functional in-game rather than cosmetic. **JEI duplicate-hiding and
+  the info pages still require the mod on the client**; recipe interchange itself is server-authoritative.
+- Two items cannot be merged into literally one via datapack — both still exist; they are made
+  interchangeable in recipes and the non-canonical is hidden in JEI.
+
 ## [1.2.0] - 2026-06-05
 
 ### Added

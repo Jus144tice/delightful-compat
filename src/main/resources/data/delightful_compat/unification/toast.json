@@ -1,0 +1,11 @@
+{
+  "group": "toast",
+  "canonical": "oaksdelight:toast",
+  "equivalents": [
+    "oaksdelight:toast",
+    "moredelight:toast",
+    "mynethersdelight:toasts"
+  ],
+  "tag": "c:foods/toast",
+  "hideNonCanonicalInJei": true
+}

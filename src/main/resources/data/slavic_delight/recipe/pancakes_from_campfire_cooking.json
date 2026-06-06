@@ -1,0 +1,24 @@
+{
+  "__comment": "DelightfulCompat unification: slavic_delight:pancakes_from_campfire_cooking (ingredients->c: tag + result canonicalized). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 0.35,
+  "ingredient": {
+    "tag": "c:foods/dough"
+  },
+  "result": {
+    "count": 1,
+    "id": "oaksdelight:pancakes"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "slavic_delight"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "oaksdelight:pancakes"
+    }
+  ]
+}

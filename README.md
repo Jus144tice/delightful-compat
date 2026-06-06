@@ -6,8 +6,11 @@ A **compatibility / unification** mod for **Farmer's Delight** and its *Delight*
 It adds almost no content of its own. Instead it makes a stack of Delight addons play nicely
 together in big modpacks by:
 
-- **Unifying equivalent ingredients** through common (`c:`) item tags, so a recipe accepts an
-  ingredient no matter which Delight mod added it.
+- **Unifying equivalent ingredients** through common (`c:`) item tags **and rewriting the addons'
+  recipes to read those tags**, so a recipe accepts an ingredient no matter which Delight mod added it.
+  (Populating a tag alone does nothing if the recipe hardcodes a specific item — which the Delight
+  addons do — so Delightful Compat overrides each consuming recipe to use the tag. See the
+  [changelog](CHANGELOG.md) 1.3.0.)
 - **Picking a canonical item** per duplicate group, so newly-added/replacement recipes output a
   single standard item instead of cluttering the game with near-identical duplicates.
 - **Resolving recipe conflicts** — disabling the colliding recipe and re-adding the lost output,

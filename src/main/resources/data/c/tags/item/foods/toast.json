@@ -1,0 +1,8 @@
+{
+  "__comment": "DelightfulCompat: unifies the duplicate 'toast' items (Oak's, More, My Nether's) so any toast satisfies any toast recipe. The consuming recipes are overridden to read this tag instead of a hardcoded item. required:false so absent mods never error. Oak's toast is the canonical (recipes that output a non-canonical toast are canonicalized to it).",
+  "values": [
+    { "id": "oaksdelight:toast", "required": false },
+    { "id": "moredelight:toast", "required": false },
+    { "id": "mynethersdelight:toasts", "required": false }
+  ]
+}

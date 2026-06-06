@@ -1,0 +1,30 @@
+{
+  "__comment": "DelightfulCompat unification: farmersdelight:cutting/boiled_potatoes (ingredients->c: tag + result canonicalized). Duplicate Delight items made interchangeable via shared c: tags. Self-gated on the owning mod (and canonical item) so it only loads when the original would.",
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "slavic_delight:boiled_potatoes"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 1,
+        "id": "moredelight:mashed_potatoes"
+      }
+    }
+  ],
+  "tool": {
+    "item": "slavic_delight:pusher"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "farmersdelight"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "moredelight:mashed_potatoes"
+    }
+  ]
+}

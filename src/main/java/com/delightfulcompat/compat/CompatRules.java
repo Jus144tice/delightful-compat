@@ -46,6 +46,7 @@ public final class CompatRules {
         "/data/delightful_compat/unification/milk.json",
         "/data/delightful_compat/unification/mashed_potatoes.json",
         "/data/delightful_compat/unification/pancakes.json",
+        "/data/delightful_compat/unification/toast.json",
     };
 
     private static final String[] BUNDLED_CONFLICTS = {
