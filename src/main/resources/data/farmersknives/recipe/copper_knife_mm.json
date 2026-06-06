@@ -1,0 +1,25 @@
+{
+  "__comment": "DelightfulCompat override of farmersknives:copper_knife_mm. Upstream ships this recipe unconditionally, but the output knife 'farmersknives:copper_knife_mm' is only registered when its metal mod is present, so vanilla load logs a hard parse error when it (and its ingredient mod) are absent. The item_exists gate loads the recipe verbatim when the knife exists and drops it cleanly otherwise.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "farmersknives:copper_knife_mm"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "m",
+    "s"
+  ],
+  "key": {
+    "m": {
+      "item": "minecraft:copper_ingot"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "farmersknives:copper_knife_mm"
+  }
+}

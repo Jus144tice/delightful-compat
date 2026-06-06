@@ -4,6 +4,42 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-06-05
+
+### Added
+- **Broken-recipe override layer** — a new use of the existing datapack-override mechanism that
+  silences (or, where possible, fixes) parse errors logged by Delight addons whose recipes reference
+  items, ingredients, or recipe serializers that aren't present. Each override is a verbatim copy of
+  the upstream recipe with a `neoforge:conditions` gate, so it loads unchanged when the dependency
+  exists and drops cleanly otherwise. 76 overrides across five addons, derived from a real modpack
+  startup log:
+  - **`farmersknives` (53)** — metal-knife recipes shipped without conditions; gated on
+    `item_exists` of the output knife (which only registers when its metal mod is installed).
+  - **`oaksdelight` (17)** — `*_display_case` crafting recipes whose output items oaksdelight 1.0.9
+    never registers (orphaned recipes); gated on `item_exists` of the output.
+  - **`oaksdelight` cleaver stubs (5)** — oaksdelight 1.0.9 ships `crafting/knives/*_cleaver.json` as
+    EMPTY 0-byte files (`EOFException`) after relocating the real recipes to `cleaver/*`. Each empty
+    stub is overridden with a valid copy of the real recipe gated by an always-false condition, so the
+    error vanishes without registering a duplicate — the cleavers stay craftable via oaksdelight's own
+    `cleaver/<material>` recipes (iron/gold/flint/diamond + netherite via smithing).
+  - **`casualnessdelight` (4)** — deep-frying recipes shipped inside Peruvian's/More Delight that use
+    the `casualness_delight:deep_frying` serializer; gated on `mod_loaded` + `item_exists`.
+  - **`brewinandchewin` (1)** — a fermenting recipe shipped inside My Nether's Delight using the
+    `brewinandchewin:fermenting` serializer; gated on `mod_loaded` + `item_exists`.
+- Optional, `AFTER`-ordered dependencies on `farmersknives`, `casualness_delight`, and
+  `brewinandchewin` so the overrides win datapack load order.
+
+### Fixed
+- **`peruviansdelight:masa_picarones`** — genuine repair, not just suppression. Upstream uses the
+  deprecated 1.20-era `"item"` result key, which 1.21.1 rejects (`No key id`), losing the recipe.
+  The override restores it with the corrected `"id"` key; all ingredients already exist.
+
+### Notes
+- This is a deliberate scope addition: Delightful Compat now also acts as a janitor for broken/orphaned
+  Delight-ecosystem recipes, consistent with its crash-safe, condition-gated philosophy. Recipes that
+  could never function (missing item/serializer) are dropped without log spam; nothing functional is
+  removed. Out-of-ecosystem errors (e.g. `createdeco`, `crabbersdelight`) were left untouched.
+
 ## [1.1.0] - 2026-06-05
 
 ### Added

@@ -1,0 +1,22 @@
+{
+  "__comment": "DelightfulCompat override of farmersknives:tidesinger_knife. Upstream ships this recipe unconditionally, but the output knife 'farmersknives:tidesinger_knife' is only registered when its metal mod is present, so vanilla load logs a hard parse error when it (and its ingredient mod) are absent. The item_exists gate loads the recipe verbatim when the knife exists and drops it cleanly otherwise.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "farmersknives:tidesinger_knife"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "base": {
+    "item": "farmersknives:aquarium_knife"
+  },
+  "addition": {
+    "tag": "mythicmetals:tidesinger_coral"
+  },
+  "result": {
+    "id": "farmersknives:tidesinger_knife"
+  },
+  "template": {
+    "item": "mythicmetals:tidesinger_smithing_template"
+  }
+}

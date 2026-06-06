@@ -117,6 +117,29 @@ ordering = "AFTER"
 side = "BOTH"
 versionRange = "[0,)"
 
+# --- Addons whose own recipes we override to suppress broken/orphaned entries (see the
+#     data/<mod>/recipe/ overrides). We must load AFTER them so our gated copy wins. ---
+[[dependencies.delightful_compat]]
+modId = "farmersknives"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "casualness_delight"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
+[[dependencies.delightful_compat]]
+modId = "brewinandchewin"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+versionRange = "[0,)"
+
 # --- JEI: optional, client-only integration for hiding duplicates + info pages. ---
 [[dependencies.delightful_compat]]
 modId = "jei"

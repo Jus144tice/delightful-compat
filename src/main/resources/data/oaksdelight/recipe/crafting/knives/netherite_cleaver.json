@@ -1,0 +1,22 @@
+{
+  "__comment": "DelightfulCompat neutralizer for oaksdelight:crafting/knives/netherite_cleaver. oaksdelight 1.0.9 ships this path as an EMPTY 0-byte file (EOFException on load); the working recipe lives at oaksdelight:cleaver/netherite and is what the advancement/JEI use. This override replaces the empty stub with a valid copy gated by an always-false condition, so the parse error vanishes WITHOUT registering a duplicate cleaver recipe. The cleaver itself remains craftable via the real recipe.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "oaksdelight:disabled_duplicate_never_exists"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "oaksdelight:diamond_cleaver"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "id": "oaksdelight:netherite_cleaver"
+  }
+}

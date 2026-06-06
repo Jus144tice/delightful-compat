@@ -1,0 +1,25 @@
+{
+  "__comment": "DelightfulCompat override of farmersknives:quadrillum_knife. Upstream ships this recipe unconditionally, but the output knife 'farmersknives:quadrillum_knife' is only registered when its metal mod is present, so vanilla load logs a hard parse error when it (and its ingredient mod) are absent. The item_exists gate loads the recipe verbatim when the knife exists and drops it cleanly otherwise.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "farmersknives:quadrillum_knife"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "m",
+    "s"
+  ],
+  "key": {
+    "m": {
+      "item": "mythicmetals:quadrillum_ingot"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "farmersknives:quadrillum_knife"
+  }
+}

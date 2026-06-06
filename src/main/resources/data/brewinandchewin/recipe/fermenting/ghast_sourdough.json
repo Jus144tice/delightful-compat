@@ -1,0 +1,38 @@
+{
+  "__comment": "DelightfulCompat override of brewinandchewin:fermenting/ghast_sourdough (shipped by MyNethersDelight). Uses the 'brewinandchewin:fermenting' serializer, absent unless Brewin' And Chewin' is installed -> hard parse error. Gated on the mod plus the output item.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "brewinandchewin"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "mynethersdelight:ghast_sourdough"
+    }
+  ],
+  "type": "brewinandchewin:fermenting",
+  "base_fluid": {
+    "amount": 500,
+    "ingredient": {
+      "tag": "#c:milk"
+    },
+    "unit": "millibuckets"
+  },
+  "category": "meals",
+  "experience": 2.0,
+  "fermenting_time": 9600,
+  "ingredients": [
+    {
+      "item": "mynethersdelight:ghast_dough"
+    },
+    {
+      "item": "mynethersdelight:ghasmati"
+    },
+    []
+  ],
+  "result": {
+    "count": 1,
+    "id": "mynethersdelight:ghast_sourdough"
+  },
+  "temperature": 5
+}

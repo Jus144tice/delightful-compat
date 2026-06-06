@@ -11,6 +11,8 @@ large modpacks by:
 - **Resolving recipe conflicts** — disable the colliding recipe, re-add the lost output, preferring to move
   one recipe onto a Farmer's Delight station (cutting board, cooking pot) rather than delete content.
 - **Milk-bucket fallbacks** when a milk-bottle item is missing.
+- **Suppressing broken/orphaned addon recipes** — overriding a foreign recipe with a `neoforge:conditions`
+  gate so it loads only when it can actually work (a missing item/serializer otherwise spams parse errors).
 - **JEI cleanup** — hide non-canonical duplicates, add info pages.
 
 Everything is optional and crash-safe: every datapack patch is guarded by `neoforge:conditions`, and every
@@ -147,6 +149,26 @@ key pattern `delightful_compat.jei.<group>`.
 - Milk fallback: [cake_from_milk_bucket_fallback.json](src/main/resources/data/delightful_compat/recipe/cake_from_milk_bucket_fallback.json)
   (loads only when `farmersdelight:milk_bottle` does NOT exist).
 
+### Broken-recipe overrides (added 1.2.0)
+Pure datapack overrides under `data/<theirmod>/recipe/...` that mirror the upstream recipe **verbatim**
+and add a `neoforge:conditions` gate, so the recipe loads unchanged when its dependency exists and drops
+silently (no parse error) otherwise. Derived from a real modpack startup log; **not** unification/JEI —
+no Java, no `CompatRules` entry, no lang key. Regenerate with `/tmp/gen_overrides.py` (reads the addon
+jars; not committed — it's a one-shot dev tool, re-point the jar paths if addons update).
+
+| Addon (count) | Gate | Why it errored upstream |
+| --- | --- | --- |
+| `farmersknives` (53) | `item_exists` of the output knife | knife recipes shipped with no conditions; the knife only registers when its metal mod is present |
+| `oaksdelight` (17) | `item_exists` of the output | `crafting/*_display_case` recipes whose items oaksdelight 1.0.9 never registers (orphaned) |
+| `oaksdelight` cleavers (5) | always-false (`item_exists` of a fake id) | `crafting/knives/*_cleaver.json` shipped EMPTY (0-byte → `EOFException`); real recipes live at `cleaver/*`. Override = valid copy, gated off, so no duplicate; cleaver stays craftable via the real recipe |
+| `casualnessdelight` (4) | `mod_loaded casualness_delight` + `item_exists` | deep-frying recipes shipped *inside* Peruvian's/More Delight using the `casualness_delight:deep_frying` serializer |
+| `brewinandchewin` (1) | `mod_loaded brewinandchewin` + `item_exists` | a fermenting recipe shipped *inside* My Nether's Delight using the `brewinandchewin:fermenting` serializer |
+
+Genuine **fix** (not suppression): [peruviansdelight/recipe/masa_picarones.json](src/main/resources/data/peruviansdelight/recipe/masa_picarones.json)
+— upstream uses the deprecated `"item"` result key (1.20 format); 1.21.1 needs `"id"`. Override restores
+it corrected. Mods overridden must be ordered `AFTER` in `neoforge.mods.toml` (added `farmersknives`,
+`casualness_delight`, `brewinandchewin`); the casualness/brewin originals live in mods we already order after.
+
 ---
 
 ## Editing recipes for common tasks
@@ -157,6 +179,7 @@ key pattern `delightful_compat.jei.<group>`.
 | **Support a new Delight mod** | add an `optional` `[[dependencies]]` block in `neoforge.mods.toml` + `ModIds.Mods` constant + whatever groups/conflicts apply (rows above) + the supported-mods list in this file & README. |
 | **Resolve a recipe conflict** | `conflicts/<id>.json` + disable override at `data/<theirmod>/recipe/<recipe>.json` (their content + a failing `neoforge:conditions`) + replacement under `data/delightful_compat/recipe/` + add path to `CompatRules#BUNDLED_CONFLICTS`. |
 | **Add a conditional fallback recipe** | new file under `data/delightful_compat/recipe/` with `neoforge:conditions` (`neoforge:not` + `neoforge:item_exists`/`mod_loaded`). |
+| **Suppress a broken/orphaned foreign recipe** | copy the upstream recipe verbatim to `data/<theirmod>/recipe/<path>.json`, prepend a `neoforge:conditions` gate (`item_exists` of the output, or `mod_loaded` of the missing serializer's mod) + ensure that mod is ordered `AFTER` in `neoforge.mods.toml` → then update [Broken-recipe overrides](#broken-recipe-overrides-added-120). |
 | **Add/rename a config option** | `DelightfulCompatConfig` field + its reader (`CompatValidator` and/or the JEI plugin) + the config table in README. |
 | **Change a JEI behavior** | `DelightfulCompatJeiPlugin` (`#registerRecipes` / `#onRuntimeAvailable`). |
 
@@ -192,6 +215,11 @@ key pattern `delightful_compat.jei.<group>`.
 - **JEI hiding requires the canonical to exist.** `DelightfulCompatJeiPlugin#onRuntimeAvailable` skips a
   group whose `canonical` item isn't registered, so it never hides a group's last visible item when the
   canonical's mod is absent (e.g. mashed potatoes with More Delight missing). Keep this guard.
+- **A broken-recipe override must self-gate.** Because the override file ships in OUR jar, it is loaded
+  even when the target addon is absent — so without a condition it would re-introduce the very recipe (and
+  error) we're suppressing. The `item_exists`/`mod_loaded` gate drops it cleanly in the addon-absent case
+  too. The override must also be ordered `AFTER` the addon (and after whatever mod *ships* the recipe, for
+  the casualness/brewin ones nested inside Peruvian's/More/My Nether's) or it won't win load order.
 - **A group's `tag` field is the primary unifying tag, but a group may rely on extra tags** (e.g.
   sweet_potato also populates `c:foods/sweet_potato`). `DatapackIntegrityTest` only checks the `tag` field's
   file exists; extra tag files are validated by the generic "all data JSON parses" walk.

@@ -1,0 +1,27 @@
+{
+  "__comment": "DelightfulCompat override of oaksdelight:crafting/white_stained_display_case. oaksdelight 1.0.9 ships this recipe but does not register its output item 'oaksdelight:white_stained_display_case', so vanilla logs a hard parse error. The item_exists gate suppresses the dead recipe and self-corrects if the item is ever added.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "oaksdelight:white_stained_display_case"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "a",
+    "b"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:white_stained_glass"
+    },
+    "b": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "id": "oaksdelight:white_stained_display_case",
+    "count": 1
+  }
+}

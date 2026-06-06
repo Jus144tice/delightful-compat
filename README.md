@@ -14,6 +14,13 @@ together in big modpacks by:
   preferring to move one recipe onto a Farmer's Delight station (cutting board, cooking pot, …)
   rather than deleting content.
 - **Providing milk-bucket fallbacks** when a "milk bottle" item is missing.
+- **Silencing broken/orphaned addon recipes** — some Delight addons ship recipes that reference items
+  or recipe serializers that aren't present (a missing dependency, or an item the addon forgot to
+  register), spamming the log with parse errors on every load. Delightful Compat overrides each such
+  recipe with a verbatim copy plus a `neoforge:conditions` gate, so it loads normally when its
+  dependency *is* installed and is dropped cleanly (no error) when it isn't. See the
+  [changelog](CHANGELOG.md) for the per-addon list (`farmersknives`, `oaksdelight`, `casualnessdelight`,
+  `brewinandchewin`, plus a genuine fix for `peruviansdelight:masa_picarones`).
 - **Cleaning up JEI** — hiding non-canonical duplicates and adding info pages that explain the
   unification.
 

@@ -1,0 +1,22 @@
+{
+  "__comment": "DelightfulCompat override of farmersknives:netherite_gold_knife. Upstream ships this recipe unconditionally, but the output knife 'farmersknives:netherite_gold_knife' is only registered when its metal mod is present, so vanilla load logs a hard parse error when it (and its ingredient mod) are absent. The item_exists gate loads the recipe verbatim when the knife exists and drops it cleanly otherwise.",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "farmersknives:netherite_gold_knife"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "base": {
+    "item": "farmersknives:netherite_iron_knife"
+  },
+  "addition": {
+    "item": "advancednetherite:netherite_gold_ingot"
+  },
+  "result": {
+    "id": "farmersknives:netherite_gold_knife"
+  },
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  }
+}
