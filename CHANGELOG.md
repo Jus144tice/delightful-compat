@@ -4,6 +4,21 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.2] - 2026-06-05
+
+### Fixed (systemic — from a full recipe audit)
+- **Interchange no longer breaks furnace/smoker/campfire recipes.** A deterministic audit of all
+  ~1280 Delight recipes found 15 real cooking conflicts, all from 1.3.0's interchange: rewriting
+  single-input station recipes (e.g. `farmersdelight:bread_from_smelting` and
+  `ramadandelight:flat_bread_from_smelting`) to read `c:foods/dough` made *every* dough smelt to
+  multiple outputs (bread vs flat_bread vs pancakes), of which only one wins — so you couldn't reliably
+  make the bread you wanted. This is the same class as the 1.3.1 sweet-potato fix, generalized:
+  **ingredient interchange is now applied only to crafting-table recipes** (`crafting_shaped` /
+  `crafting_shapeless`), where overlapping inputs coexist fine. Output canonicalization still applies
+  everywhere (it never adds a recipe, so it can't conflict). 39 → 29 overrides; re-audit shows 0
+  conflicts. The user-facing examples (toast-with-egg, cheese toastie, etc.) are crafting recipes and
+  are unaffected.
+
 ## [1.3.1] - 2026-06-05
 
 ### Fixed (playtest feedback)

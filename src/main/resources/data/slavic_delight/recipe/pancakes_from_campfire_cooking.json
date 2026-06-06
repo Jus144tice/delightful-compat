@@ -5,7 +5,7 @@
   "cookingtime": 600,
   "experience": 0.35,
   "ingredient": {
-    "tag": "c:foods/dough"
+    "item": "farmersdelight:wheat_dough"
   },
   "result": {
     "count": 1,

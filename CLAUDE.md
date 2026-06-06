@@ -217,14 +217,18 @@ it corrected. Mods overridden must be ordered `AFTER` in `neoforge.mods.toml` (a
 - **JEI hiding requires the canonical to exist.** `DelightfulCompatJeiPlugin#onRuntimeAvailable` skips a
   group whose `canonical` item isn't registered, so it never hides a group's last visible item when the
   canonical's mod is absent (e.g. mashed potatoes with More Delight missing). Keep this guard.
-- **Don't unify items that share an input but have DISTINCT cooked/processed forms.** `camote` and
-  `veggiesdelight:sweet_potato` each smelt to a *different* cooked item (cooked camote vs baked sweet
-  potato). Making the raw crops interchangeable (or collapsing one) puts both smelting recipes on one
-  input, so only one cooked form stays craftable. 1.3.0 did this and broke it; 1.3.1 dropped sweet
-  potato from interchange/collapse. The generator [/tmp/gen_unify.py] no longer lists it. Litmus test
-  before adding a group to interchange: do all members share the SAME downstream recipes/outputs? If a
-  member has a unique recipe keyed on its specific id (esp. furnace/smoker — one output per input), keep
-  it out of interchange (tag membership for shared recipes is still fine).
+- **Ingredient interchange is ONLY safe on crafting-table recipes** (`crafting_shaped`/`shapeless`).
+  Single-input station recipes — `minecraft:smelting`/`smoking`/`campfire_cooking`/`blasting` and
+  `farmersdelight:cutting` — are one-in-one-out: rewriting their input to a `c:` tag makes one input
+  match many recipes, so only one output wins. 1.3.0 rewrote `bread_from_smelting`/`flat_bread_from_*`
+  to `c:foods/dough` and every dough then smelted ambiguously to bread/flat_bread/pancakes (15
+  conflicts). 1.3.2 restricts interchange to crafting types ([/tmp/gen_unify.py] `CRAFTING` set).
+  **Output canonicalization (collapse) is fine on any type** — it changes the result, never adds a
+  matching recipe, so it can't conflict. Re-audit conflicts with `/tmp/analyze3.py` (dedupes by recipe
+  id so the override wins, then flags same-type same-input multi-output).
+- **Sweet potato is intentionally NOT in interchange/collapse** (it's a tag-only group): camote and
+  `veggiesdelight:sweet_potato` have distinct cooked forms, so even crafting-level collapse was wrong.
+  See [/tmp/gen_unify.py] — it's commented out of `GROUPS`.
 - **`oaksdelight:butter` has no upstream recipe** (its `cooking/butter.json` is a mislabeled muffins
   dup); we ship a Cooking Pot butter recipe at that path. If oaksdelight fixes it, drop our override.
 - **A broken-recipe override must self-gate.** Because the override file ships in OUR jar, it is loaded
