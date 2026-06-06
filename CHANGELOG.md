@@ -4,6 +4,16 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.4] - 2026-06-06
+
+### Added
+- **Mod icon.** A 256px logo (`src/main/resources/delightfulcompat.png`, wired via `logoFile` in
+  `neoforge.mods.toml`) so the mod shows an icon in the NeoForge mods list. It belongs to the same visual
+  family as the sibling mods (bedrock-crafting-controls, bedrock-line-placement, partially-craftable-recipes):
+  the shared dark rounded-square gradient frame and emerald/neutral palette, with its own unification motif —
+  three neutral "duplicate" cells merging via converging arrows into one glowing emerald "canonical" cell.
+  Regenerate with `python tools/make_icon.py` (requires Pillow).
+
 ## [1.3.3] - 2026-06-05
 
 ### Added (audit follow-up — bread tag unification)

@@ -21,6 +21,7 @@ modId = "delightful_compat"
 version = "${file.jarVersion}"
 displayName = "Delightful Compat"
 authors = "delightful_compat"
+logoFile = "delightfulcompat.png"
 description = '''
 A compatibility / unification layer for Farmer's Delight and its "Delight" addons
 (Oaks, Ramadan, Peruvian, More, Slavic, ...). It unifies equivalent ingredients via
