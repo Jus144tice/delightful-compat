@@ -1,0 +1,8 @@
+{
+  "__comment": "DelightfulCompat: Oak's Delight defines c:foods/cheese with only oaksdelight:cheese, so recipes that read this tag (e.g. oaksdelight:cheese_toastie) reject Arbitrary Delight's cheese. Merge Arbitrary Delight's cheese items in so any cheese works. required:false keeps it safe when a mod is absent. (shredded_cheese is half a cheese_block, included so it also counts.)",
+  "replace": false,
+  "values": [
+    { "id": "arbitrarydelight:cheese_block", "required": false },
+    { "id": "arbitrarydelight:shredded_cheese", "required": false }
+  ]
+}

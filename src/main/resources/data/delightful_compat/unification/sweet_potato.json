@@ -7,5 +7,5 @@
     "croptopia:sweet_potato"
   ],
   "tag": "c:crops/sweet_potato",
-  "hideNonCanonicalInJei": true
+  "hideNonCanonicalInJei": false
 }

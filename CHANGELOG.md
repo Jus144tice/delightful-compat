@@ -4,6 +4,29 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.1] - 2026-06-05
+
+### Fixed (playtest feedback)
+- **Sweet potato is no longer over-unified.** 1.3.0 made `peruviansdelight:camote` and
+  `veggiesdelight:sweet_potato` interchangeable and collapsed one into the other — but they have
+  DISTINCT cooked forms (cooked camote vs baked sweet potato), so collapsing put both smelting
+  recipes on one input and only one was craftable. Reverted: sweet potato is removed from
+  interchange/collapse (8 overrides dropped, 47→39) and its JEI hiding is turned off, so both crops
+  stay distinct, visible, and separately cookable. They still share `c:crops/sweet_potato` for
+  recipes natively written against that tag.
+- **`oaksdelight:butter` is now craftable.** oaksdelight 1.0.9 ships no working butter recipe (the
+  file at `cooking/butter.json` is a mislabeled duplicate of the muffins recipe), so butter — and
+  everything needing it (pancakes, muffins, soft serve) — was impossible. Added a Cooking Pot recipe
+  (2× milk → butter); muffins keep their own recipe.
+- **Arbitrary Delight cheese now works as cheese.** `oaksdelight:cheese_toastie` (and other recipes)
+  read `c:foods/cheese`, but that tag only contained `oaksdelight:cheese`. Added
+  `arbitrarydelight:cheese_block` and `shredded_cheese` to the tag so any cheese satisfies them.
+
+### Notes
+- Reminder: Delight foods like butter, pancakes and muffins are made in the **Farmer's Delight Cooking
+  Pot**, not the crafting grid — that's why JEI's right-click "+" (recipe transfer) does nothing for
+  them. It's a station recipe, not a bug.
+
 ## [1.3.0] - 2026-06-05
 
 ### Added

@@ -123,7 +123,7 @@ key pattern `delightful_compat.jei.<group>`.
 ### Unification groups (`data/delightful_compat/unification/<group>.json`)
 | Group | Canonical | Members | Tag | JEI hide |
 | --- | --- | --- | --- | --- |
-| [sweet_potato](src/main/resources/data/delightful_compat/unification/sweet_potato.json) | `peruviansdelight:camote` | camote, `veggiesdelight:sweet_potato` (+placeholders) | `c:crops/sweet_potato` (+`c:foods/sweet_potato`) | yes |
+| [sweet_potato](src/main/resources/data/delightful_compat/unification/sweet_potato.json) | `peruviansdelight:camote` | camote, `veggiesdelight:sweet_potato` (+placeholders) | `c:crops/sweet_potato` (+`c:foods/sweet_potato`) | **no** (tag-only; see gotcha) |
 | [dough](src/main/resources/data/delightful_compat/unification/dough.json) | `farmersdelight:wheat_dough` | wheat_dough, `ramadandelight:small_dough` | `c:foods/dough` | no |
 | [milk](src/main/resources/data/delightful_compat/unification/milk.json) | `farmersdelight:milk_bottle` | milk_bottle, `minecraft:milk_bucket` | `c:foods/milk` | no |
 | [mashed_potatoes](src/main/resources/data/delightful_compat/unification/mashed_potatoes.json) | `moredelight:mashed_potatoes` | more + slavic + `veggiesdelight:mashed_potatoes` | `c:foods/mashed_potatoes` | yes |
@@ -217,6 +217,16 @@ it corrected. Mods overridden must be ordered `AFTER` in `neoforge.mods.toml` (a
 - **JEI hiding requires the canonical to exist.** `DelightfulCompatJeiPlugin#onRuntimeAvailable` skips a
   group whose `canonical` item isn't registered, so it never hides a group's last visible item when the
   canonical's mod is absent (e.g. mashed potatoes with More Delight missing). Keep this guard.
+- **Don't unify items that share an input but have DISTINCT cooked/processed forms.** `camote` and
+  `veggiesdelight:sweet_potato` each smelt to a *different* cooked item (cooked camote vs baked sweet
+  potato). Making the raw crops interchangeable (or collapsing one) puts both smelting recipes on one
+  input, so only one cooked form stays craftable. 1.3.0 did this and broke it; 1.3.1 dropped sweet
+  potato from interchange/collapse. The generator [/tmp/gen_unify.py] no longer lists it. Litmus test
+  before adding a group to interchange: do all members share the SAME downstream recipes/outputs? If a
+  member has a unique recipe keyed on its specific id (esp. furnace/smoker — one output per input), keep
+  it out of interchange (tag membership for shared recipes is still fine).
+- **`oaksdelight:butter` has no upstream recipe** (its `cooking/butter.json` is a mislabeled muffins
+  dup); we ship a Cooking Pot butter recipe at that path. If oaksdelight fixes it, drop our override.
 - **A broken-recipe override must self-gate.** Because the override file ships in OUR jar, it is loaded
   even when the target addon is absent — so without a condition it would re-introduce the very recipe (and
   error) we're suppressing. The `item_exists`/`mod_loaded` gate drops it cleanly in the addon-absent case

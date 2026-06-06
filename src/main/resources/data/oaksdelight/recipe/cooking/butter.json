@@ -1,0 +1,19 @@
+{
+  "__comment": "DelightfulCompat FIX: oaksdelight 1.0.9 ships NO working recipe for oaksdelight:butter — the file at this path actually produced oaksdelight:muffins (a duplicate of cooking/muffins.json), so butter was uncraftable and every butter-dependent recipe (pancakes, muffins, soft serve) was blocked. This restores a butter recipe: churn milk into butter in the Farmer's Delight Cooking Pot. Balance is a best guess (2 milk -> 1 butter); adjust to taste. Gated so it's inert if Oak's Delight is absent.",
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "oaksdelight" },
+    { "type": "neoforge:item_exists", "item": "oaksdelight:butter" }
+  ],
+  "type": "farmersdelight:cooking",
+  "experience": 0.5,
+  "cookingtime": 200,
+  "ingredients": [
+    { "tag": "c:foods/milk" },
+    { "tag": "c:foods/milk" }
+  ],
+  "result": {
+    "id": "oaksdelight:butter",
+    "count": 1
+  },
+  "recipe_book_tab": "misc"
+}
