@@ -4,6 +4,22 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.3] - 2026-06-05
+
+### Added (audit follow-up — bread tag unification)
+- Cross-populated the two bread tags so bread is interchangeable across mods. The Delight mods split
+  bread slices/toasts between `c:foods/bread` (Oak's, My Nether's — 30 recipes) and `c:bread_slices`
+  (More Delight — 8 recipes), so e.g. More Delight's `bread_slice` didn't work in `c:foods/bread`
+  recipes and Oak's didn't work in `c:bread_slices` recipes. Both tags now contain
+  `moredelight:bread_slice`, `oaksdelight:bread_slice`, `mynethersdelight:slices_of_bread` and the
+  three matching toasts. Pure tag membership — no recipe rewrites, so no conflict risk.
+
+### Notes
+- The audit's other suspected gap (`arbitrarydelight:pasta` → `c:foods/pasta`) was a **false positive**
+  and intentionally NOT added: that item is a finished pasta *dish* (raw_pasta + tomato_sauce), whereas
+  `c:foods/pasta` is the raw-pasta ingredient tag — adding it would let pasta dishes be cooked from
+  pasta dishes. Duplicate *dishes* (carrot_cake, fries, popsicles, …) were left un-unified by request.
+
 ## [1.3.2] - 2026-06-05
 
 ### Fixed (systemic — from a full recipe audit)

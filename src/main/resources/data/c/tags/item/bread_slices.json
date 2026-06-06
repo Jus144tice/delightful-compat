@@ -1,0 +1,12 @@
+{
+  "__comment": "DelightfulCompat: counterpart to the c:foods/bread merge — the 8 recipes that read c:bread_slices only had More Delight's slices, so Oak's / My Nether's bread didn't work in them. Add the same cross-mod bread slices + toasts here too. required:false keeps absent mods safe.",
+  "replace": false,
+  "values": [
+    { "id": "moredelight:bread_slice", "required": false },
+    { "id": "moredelight:toast", "required": false },
+    { "id": "oaksdelight:bread_slice", "required": false },
+    { "id": "oaksdelight:toast", "required": false },
+    { "id": "mynethersdelight:slices_of_bread", "required": false },
+    { "id": "mynethersdelight:toasts", "required": false }
+  ]
+}

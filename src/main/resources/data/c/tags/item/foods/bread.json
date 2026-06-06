@@ -1,0 +1,12 @@
+{
+  "__comment": "DelightfulCompat: the Delight mods split bread slices/toasts across c:foods/bread (Oak's, My Nether's) and c:bread_slices (More Delight), so e.g. More Delight's bread_slice didn't work in the 30 recipes that read c:foods/bread. Cross-populate the equivalent bread slices + toasts so any of them satisfies any bread recipe. required:false keeps absent mods safe.",
+  "replace": false,
+  "values": [
+    { "id": "moredelight:bread_slice", "required": false },
+    { "id": "moredelight:toast", "required": false },
+    { "id": "oaksdelight:bread_slice", "required": false },
+    { "id": "oaksdelight:toast", "required": false },
+    { "id": "mynethersdelight:slices_of_bread", "required": false },
+    { "id": "mynethersdelight:toasts", "required": false }
+  ]
+}
