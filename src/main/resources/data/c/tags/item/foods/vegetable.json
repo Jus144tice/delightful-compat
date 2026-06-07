@@ -1,0 +1,6 @@
+{
+  "__comment": "DelightfulCompat tag-membership unification (potato is a potato): Veggies Delight tags ONLY its own sweet_potato into c:foods/vegetable, so recipes keyed on this tag (e.g. farmersdelight stuffed_pumpkin_block, which accepts any c:foods/vegetable minus melon) reject Peruvian's camote. Merge the whole sweet_potato group so every sweet potato counts as a vegetable. c:foods/vegetable is NOT a single-input cooking input, so this is conflict-safe. required:false self-guards.",
+  "values": [
+    { "id": "#c:crops/sweet_potato", "required": false }
+  ]
+}

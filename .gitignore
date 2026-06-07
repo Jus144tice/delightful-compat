@@ -8,6 +8,9 @@ run/
 runs/
 *.launch
 
+# Dev-only addon jars dropped in libs-dev/ (third-party; never committed — see libs-dev/README.txt)
+libs-dev/*.jar
+
 # IDEs
 .idea/
 *.iml

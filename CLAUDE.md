@@ -121,7 +121,11 @@ Run on the NeoForge `unitTest` harness (MC on the classpath). All Apache-headere
 - [pack.mcmeta](src/main/resources/pack.mcmeta) — `pack_format` 48.
 - [build.gradle](build.gradle) — NeoForge block, optional JEI dep, the guarded `libs-dev/` dev-mod loader.
 - [gradle.properties](gradle.properties) — all versions (MC, NeoForge, JEI, mod).
-- [libs-dev/](libs-dev/) — drop addon jars here for `runClient`/`runServer` (never committed; see its README.txt).
+- [libs-dev/](libs-dev/) — drop addon jars here for `runClient`/`runServer` AND for `tools/audit_tag_unification.py`
+  (never committed; see its README.txt). The full Delight set is fetchable from Modrinth for NeoForge 1.21.1.
+- [tools/audit_tag_unification.py](tools/audit_tag_unification.py) — reads the `libs-dev/` jars and reports,
+  per unification group, the category tags each equivalent occupies, flagging `[COOKING-INPUT: SKIP]` tags.
+  The repeatable basis of [Tag-membership unification](#tag-membership-unification-added-137).
 
 ---
 
@@ -133,7 +137,7 @@ key pattern `delightful_compat.jei.<group>`.
 ### Unification groups (`data/delightful_compat/unification/<group>.json`)
 | Group | Canonical | Members | Tag | JEI hide |
 | --- | --- | --- | --- | --- |
-| [sweet_potato](src/main/resources/data/delightful_compat/unification/sweet_potato.json) | `peruviansdelight:camote` | camote, `veggiesdelight:sweet_potato` (+placeholders) | `c:crops/sweet_potato` (+`c:foods/sweet_potato`) | **no** (tag-only; see gotcha) |
+| [sweet_potato](src/main/resources/data/delightful_compat/unification/sweet_potato.json) | `peruviansdelight:camote` | camote, `veggiesdelight:sweet_potato` (+placeholders) | `c:crops/sweet_potato` (+`c:foods/sweet_potato`; merged into `c:foods/vegetable`/`c:crops`/`horse_food`/`villager_plantable_seeds` — see [Tag-membership unification](#tag-membership-unification-added-137)) | **no** (tag-only; see gotcha) |
 | [dough](src/main/resources/data/delightful_compat/unification/dough.json) | `farmersdelight:wheat_dough` | wheat_dough, `ramadandelight:small_dough` | `c:foods/dough` | no |
 | [milk](src/main/resources/data/delightful_compat/unification/milk.json) | `farmersdelight:milk_bottle` | milk_bottle, `minecraft:milk_bucket` | `c:foods/milk` | no |
 | [mashed_potatoes](src/main/resources/data/delightful_compat/unification/mashed_potatoes.json) | `moredelight:mashed_potatoes` | more + slavic + `veggiesdelight:mashed_potatoes` | `c:foods/mashed_potatoes` | yes |
@@ -147,6 +151,10 @@ key pattern `delightful_compat.jei.<group>`.
 [crops/sweet_potato](src/main/resources/data/c/tags/item/crops/sweet_potato.json),
 [foods/mashed_potatoes](src/main/resources/data/c/tags/item/foods/mashed_potatoes.json),
 [foods/pancakes](src/main/resources/data/c/tags/item/foods/pancakes.json).
+Tag-membership-unification merges (1.3.7): [crops](src/main/resources/data/c/tags/item/crops.json),
+[foods/vegetable](src/main/resources/data/c/tags/item/foods/vegetable.json),
+[minecraft horse_food](src/main/resources/data/minecraft/tags/item/horse_food.json),
+[minecraft villager_plantable_seeds](src/main/resources/data/minecraft/tags/item/villager_plantable_seeds.json).
 
 ### Conflict + recipes
 - Conflict rule: [dough_dupe_loop_ramadan.json](src/main/resources/data/delightful_compat/conflicts/dough_dupe_loop_ramadan.json).
@@ -219,6 +227,31 @@ the **same dependency as the compost fix**: an item only benefits if its mod tag
 `c:foods/vegetable`. If a specific seed works for neither composting nor breeding, that mod didn't tag it —
 add the id to `c:seeds` (fixes both at once). Guarded by `DatapackIntegrityTest#animalFoodTagsUnifyCategories`.
 
+### Tag-membership unification (added 1.3.7)
+"Potato is a potato" for **tag-based** recipes. A duplicate group's items are only interchangeable in a
+recipe keyed on tag `T` if **all** of them are in `T`. Addons tag asymmetrically — Veggies richly tags its
+`sweet_potato`, Peruvian's barely tags `camote` — so camote was rejected by `farmersdelight:stuffed_pumpkin`
+(`c:foods/vegetable`), `horse_food`, etc. Fix = merge the group's unifying tag into each broad category tag
+any equivalent occupies, so present-and-future members all join. Pure datapack tag-merge, `required:false`.
+
+Current (sweet potato): [c/tags/item/foods/vegetable.json](src/main/resources/data/c/tags/item/foods/vegetable.json),
+[c/tags/item/crops.json](src/main/resources/data/c/tags/item/crops.json),
+[minecraft/tags/item/horse_food.json](src/main/resources/data/minecraft/tags/item/horse_food.json),
+[minecraft/tags/item/villager_plantable_seeds.json](src/main/resources/data/minecraft/tags/item/villager_plantable_seeds.json)
+— each merges `#c:crops/sweet_potato`. (Pig breeding is already covered: `pig_food` merges `#c:foods/vegetable`,
+which now contains the group → camote, resolved transitively.)
+
+**Cooking-safety rule (same as recipe-interchange):** only unify a tag that is NOT a single-input cooking
+input (`minecraft:smelting`/`smoking`/`campfire_cooking`/`blasting`, `farmersdelight:cutting`). Expanding such
+a tag makes one input match many recipes → ambiguous output. The audit flags these: **`c:crops/potato`**
+(cutting: fries/diced) and **`c:foods/bread`** (cutting: bread_slice) are SKIPPED.
+
+Re-run the audit when addons change: **`python tools/audit_tag_unification.py`** (reads the jars in
+`libs-dev/`; prints each group's category tags with `[COOKING-INPUT: SKIP]` flags). Other groups currently
+need nothing: milk is already unified (we add `milk_bucket` to `c:drinks/milk`), and the rest only overlap on
+cooking-unsafe, debuff (`c:foods/food_poisoning`), or rarely-used umbrella tags. Guarded by
+`DatapackIntegrityTest#sweetPotatoTagMembershipUnified`.
+
 ---
 
 ## Editing recipes for common tasks
@@ -230,7 +263,7 @@ add the id to `c:seeds` (fixes both at once). Guarded by `DatapackIntegrityTest#
 | **Resolve a recipe conflict** | `conflicts/<id>.json` + disable override at `data/<theirmod>/recipe/<recipe>.json` (their content + a failing `neoforge:conditions`) + replacement under `data/delightful_compat/recipe/` + add path to `CompatRules#BUNDLED_CONFLICTS`. |
 | **Add a conditional fallback recipe** | new file under `data/delightful_compat/recipe/` with `neoforge:conditions` (`neoforge:not` + `neoforge:item_exists`/`mod_loaded`). |
 | **Suppress a broken/orphaned foreign recipe** | copy the upstream recipe verbatim to `data/<theirmod>/recipe/<path>.json`, prepend a `neoforge:conditions` gate (`item_exists` of the output, or `mod_loaded` of the missing serializer's mod) + ensure that mod is ordered `AFTER` in `neoforge.mods.toml` → then update [Broken-recipe overrides](#broken-recipe-overrides-added-120). |
-| **Make a duplicate item interchangeable in recipes** | the tag alone does nothing — addon recipes hardcode items. Override each consuming recipe at `data/<theirmod>/recipe/<path>.json`, swap the `{"item":<equiv>}` ingredient → `{"tag":<grouptag>}`, ensure the tag actually contains the equivalents, and self-gate on `mod_loaded:<owning mod>` (+ `item_exists:<canonical>` if you also canonicalize the result). The bulk of these are generated by `/tmp/gen_unify.py` (1.3.0) — re-point its jar paths and re-run if addons change. **Never rewrite a conversion recipe** (result is itself a group member, e.g. `milk_bucket_from_bottles`). |
+| **Make a duplicate item interchangeable in recipes** | TWO mechanisms. (1) **Tag-based recipes** (the addon recipe already uses `#c:...`): just ensure every equivalent is in that tag — usually merge `#<grouptag>` into the category tag (see [Tag-membership unification](#tag-membership-unification-added-137); run `python tools/audit_tag_unification.py` to find gaps). Pure tag-merge, fixes all such recipes at once. (2) **Item-hardcoded recipes**: override each consuming recipe at `data/<theirmod>/recipe/<path>.json`, swap `{"item":<equiv>}` → `{"tag":<grouptag>}`, self-gate on `mod_loaded:<owning mod>`. Both obey the cooking-safety rule (crafting/cooking-pot only). **Never rewrite a conversion recipe** (result is itself a group member, e.g. `milk_bucket_from_bottles`) and never expand a `[COOKING-INPUT: SKIP]` tag. |
 | **Make an item compostable** | add its tag (or id) to the `values` of [data/neoforge/data_maps/item/compostables.json](src/main/resources/data/neoforge/data_maps/item/compostables.json) — prefer a `#c:`/`#minecraft:` tag key (self-guarding) over a raw id; chance mirrors vanilla (seeds 0.3, crops 0.65). NOT a recipe/JEI/Java concern — the 1.21.1 composter reads the `neoforge:compostables` data map only. → then update [Compostability](#compostability-added-135). |
 | **Make an item breed/feed an animal** | merge into the vanilla `data/minecraft/tags/item/<animal>_food.json` (the animal's `isFood` reads that tag) — prefer the `c:` umbrella (`#c:seeds`, `#c:foods/vegetable`) with `required:false`. NOT Java. → then update [Animal breeding / feeding](#animal-breeding--feeding-added-136). |
 | **Add/rename a config option** | `DelightfulCompatConfig` field + its reader (`CompatValidator` and/or the JEI plugin) + the config table in README. |
@@ -277,9 +310,16 @@ add the id to `c:seeds` (fixes both at once). Guarded by `DatapackIntegrityTest#
   **Output canonicalization (collapse) is fine on any type** — it changes the result, never adds a
   matching recipe, so it can't conflict. Re-audit conflicts with `/tmp/analyze3.py` (dedupes by recipe
   id so the override wins, then flags same-type same-input multi-output).
-- **Sweet potato is intentionally NOT in interchange/collapse** (it's a tag-only group): camote and
-  `veggiesdelight:sweet_potato` have distinct cooked forms, so even crafting-level collapse was wrong.
-  See [/tmp/gen_unify.py] — it's commented out of `GROUPS`.
+- **Sweet potato uses tag-membership unification, not recipe-interchange/collapse.** Its two real items
+  (`peruviansdelight:camote`, `veggiesdelight:sweet_potato`) have distinct *cooked* forms, so rewriting their
+  cooking recipes or collapsing outputs is wrong (kept out of the `gen_unify` recipe pass). BUT they must
+  still be mutually usable as *ingredients* ("potato is a potato"). The gap (1.3.7): Veggies tags ITS sweet
+  potato into broad category tags (`c:foods/vegetable`, `c:crops`, `minecraft:horse_food`,
+  `villager_plantable_seeds`) but Peruvian's barely tags camote at all — so e.g. `farmersdelight`'s
+  `stuffed_pumpkin_block` (keyed on `c:foods/vegetable`) rejected camote. Fix = merge `#c:crops/sweet_potato`
+  into those category tags (see [Tag-membership unification](#tag-membership-unification-added-137)). Cooking
+  safety still applies: `c:crops/potato` is a **cutting input** (`potato_fries`, `diced_potatoes`) and camote
+  has its own cutting/cooking, so camote is deliberately NOT merged there.
 - **`oaksdelight:butter` has no upstream recipe** (its `cooking/butter.json` is a mislabeled muffins
   dup); we ship a Cooking Pot butter recipe at that path. If oaksdelight fixes it, drop our override.
 - **A broken-recipe override must self-gate.** Because the override file ships in OUR jar, it is loaded

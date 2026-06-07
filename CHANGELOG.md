@@ -4,6 +4,26 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.7] - 2026-06-07
+
+### Fixed (tag-membership unification — "potato is a potato")
+- **Peruvian's camote now works wherever Veggies' sweet potato does.** Reported: camote couldn't be used in
+  Farmer's Delight's Stuffed Pumpkin. Root cause: that recipe accepts any `c:foods/vegetable` (minus melon),
+  and Veggies tags **its** sweet potato into `c:foods/vegetable` / `c:crops` / `minecraft:horse_food` /
+  `villager_plantable_seeds`, but Peruvian's Delight barely tags `camote` at all — so the two "sweet potatoes"
+  weren't actually interchangeable in tag-based recipes.
+- **Fix:** merge the sweet-potato group tag (`#c:crops/sweet_potato`, which contains every sweet potato) into
+  each of those cooking-safe category tags. Now camote (and any future sweet potato) is a first-class
+  vegetable/crop, breeds horses & pigs, and is villager-plantable — same as Veggies'. Pure datapack.
+- **Cooking-safety preserved:** `c:crops/potato` is deliberately **not** unified — it's a cutting-board input
+  (potato fries / diced potatoes) and camote has its own cutting/cooking recipes, so merging there would make
+  one input produce several outputs (the 1.3.0-class conflict).
+- **Applied universally, not just to this case:** added `tools/audit_tag_unification.py`, which reads the
+  addon jars and reports every group's category-tag gaps (flagging cooking-input tags to skip). Re-audited all
+  groups — sweet potato was the one with real gaps; milk is already unified, and the rest only overlapped on
+  cooking-unsafe / debuff / rarely-used tags, so they're correctly left alone.
+- Guarded by a new `DatapackIntegrityTest` case. Verified on a dev server with all 12 addons loaded.
+
 ## [1.3.6] - 2026-06-06
 
 ### Fixed (animal breeding/feeding across all addons)

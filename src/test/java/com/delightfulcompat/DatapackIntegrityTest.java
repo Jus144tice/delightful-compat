@@ -89,7 +89,11 @@ class DatapackIntegrityTest {
     }
 
     private static void assertTagMerges(String tag, String expectedEntry) throws Exception {
-        JsonObject t = readJson("/data/minecraft/tags/item/" + tag + ".json").getAsJsonObject();
+        assertTagMergesAt("/data/minecraft/tags/item/" + tag + ".json", expectedEntry);
+    }
+
+    private static void assertTagMergesAt(String resourcePath, String expectedEntry) throws Exception {
+        JsonObject t = readJson(resourcePath).getAsJsonObject();
         boolean found = false;
         for (JsonElement v : t.getAsJsonArray("values")) {
             String id = v.isJsonObject() ? v.getAsJsonObject().get("id").getAsString() : v.getAsString();
@@ -97,7 +101,19 @@ class DatapackIntegrityTest {
                 found = true;
             }
         }
-        assertTrue(found, "minecraft:" + tag + " must merge " + expectedEntry);
+        assertTrue(found, resourcePath + " must merge " + expectedEntry);
+    }
+
+    @Test
+    void sweetPotatoTagMembershipUnified() throws Exception {
+        // "Potato is a potato": every grouped sweet potato must share the category tags that any one of
+        // them is in, so e.g. Peruvian's camote works in the stuffed-pumpkin recipe (keyed on
+        // c:foods/vegetable) just like Veggies' sweet_potato. We merge the group tag into the cooking-SAFE
+        // category tags (NOT c:crops/potato, which is a cutting input -> would make camote ambiguous).
+        assertTagMergesAt("/data/c/tags/item/foods/vegetable.json", "#c:crops/sweet_potato");
+        assertTagMergesAt("/data/c/tags/item/crops.json", "#c:crops/sweet_potato");
+        assertTagMergesAt("/data/minecraft/tags/item/horse_food.json", "#c:crops/sweet_potato");
+        assertTagMergesAt("/data/minecraft/tags/item/villager_plantable_seeds.json", "#c:crops/sweet_potato");
     }
 
     @Test
