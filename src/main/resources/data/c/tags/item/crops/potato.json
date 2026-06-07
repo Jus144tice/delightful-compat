@@ -1,0 +1,6 @@
+{
+  "__comment": "DelightfulCompat tag-membership unification (potato is a potato): Veggies Delight tags its sweet_potato into c:crops/potato (so it subs for potato in recipes keyed on that tag), but Peruvian's camote is not, so camote was rejected where Veggies' worked. Merge the sweet_potato group so every sweet potato subs for potato equally. COOKING-SAFETY NOTE: c:crops/potato is a cutting input (potato_fries / diced_potatoes) and camote has its own farmersdelight:cutting recipe (camote_cortado) -> cutting a camote may now yield potato_fries/diced instead. This overlap is ACCEPTED here because (a) Veggies' sweet_potato already lives in this tag, so the ambiguity pre-exists, and (b) the user explicitly wants sweet potato to count as potato. required:false self-guards.",
+  "values": [
+    { "id": "#c:crops/sweet_potato", "required": false }
+  ]
+}

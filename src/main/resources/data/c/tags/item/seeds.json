@@ -1,0 +1,6 @@
+{
+  "__comment": "DelightfulCompat: cross-populate the common c:seeds umbrella with seed items that their own mod failed to tag. Slavic Delight ships cucumber_seeds but puts it in NO tags, so it was invisible to everything keyed on c:seeds: it wouldn't compost (our neoforge:compostables data map keys #c:seeds -> 0.3) and wouldn't breed chickens/parrots (our minecraft:chicken_food/parrot_food merge #c:seeds). Adding the id here fixes BOTH at once. Add a line for any other untagged seed. required:false self-guards when a mod is absent.",
+  "values": [
+    { "id": "slavic_delight:cucumber_seeds", "required": false }
+  ]
+}

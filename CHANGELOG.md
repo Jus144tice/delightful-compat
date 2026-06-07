@@ -4,6 +4,30 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.8] - 2026-06-07
+
+### Fixed (two reported "potato is a potato" gaps — both root-caused to untagged items)
+- **Cucumber seeds are now compostable (and breed chickens/parrots).** Slavic Delight ships its own compost
+  data map for `cucumber` (the crop, 0.65) but **omits `cucumber_seeds`**, and tags that seed into **nothing**
+  — so it was invisible to everything keyed on `c:seeds` (our compost data map's `#c:seeds` entry, and the
+  `#c:seeds`→`chicken_food`/`parrot_food` breeding merges). Fix: cross-populate `c:seeds` with
+  `slavic_delight:cucumber_seeds` (new [c/tags/item/seeds.json](src/main/resources/data/c/tags/item/seeds.json)).
+  One tag entry fixes **both** composting and breeding — and closes the still-open 1.3.6 "cucumber seeds won't
+  breed chickens" gap, which never worked because the seed was never in `c:seeds`. Verified against the jars
+  that every other supported-mod seed is already in `c:seeds`; cucumber was the only gap.
+- **Peruvian's camote now subs for potato in recipes.** `c:crops/potato` contained only
+  `veggiesdelight:sweet_potato`, so recipes keyed on it (which is why you saw "missing potato") accepted
+  Veggies' sweet potato but rejected camote. Fix: merge the sweet-potato group (`#c:crops/sweet_potato`) into
+  [c/tags/item/crops/potato.json](src/main/resources/data/c/tags/item/crops/potato.json). 1.3.7 had skipped
+  this tag for cutting-safety, but since Veggies' sweet potato **already** lives there (the cutting overlap
+  pre-exists) and you want sweet potato ≡ potato, parity wins. Trade-off: cutting a camote may now yield
+  potato fries/diced instead of `camote_cortado` — same as Veggies' sweet potato already behaves.
+- Both are pure datapack tag merges (no data-map changes). Guarded by new `DatapackIntegrityTest` cases.
+- **Broader pattern:** these are the same class as before — a mod doesn't tag its item into the common tag our
+  fixes rely on. The mechanisms (`c:seeds` for compost/breeding, tag-membership unification for ingredients)
+  are systemic; remaining gaps are per-item. If another item misbehaves, it's untagged — name it and it's a
+  one-line add.
+
 ## [1.3.7] - 2026-06-07
 
 ### Fixed (tag-membership unification — "potato is a potato")

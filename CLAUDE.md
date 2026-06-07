@@ -155,6 +155,9 @@ Tag-membership-unification merges (1.3.7): [crops](src/main/resources/data/c/tag
 [foods/vegetable](src/main/resources/data/c/tags/item/foods/vegetable.json),
 [minecraft horse_food](src/main/resources/data/minecraft/tags/item/horse_food.json),
 [minecraft villager_plantable_seeds](src/main/resources/data/minecraft/tags/item/villager_plantable_seeds.json).
+1.3.8: [crops/potato](src/main/resources/data/c/tags/item/crops/potato.json) (sweet potato ≡ potato),
+[seeds](src/main/resources/data/c/tags/item/seeds.json) (cross-populate `c:seeds` with untagged seeds —
+currently `slavic_delight:cucumber_seeds` — fixing compost + breeding for them).
 
 ### Conflict + recipes
 - Conflict rule: [dough_dupe_loop_ramadan.json](src/main/resources/data/delightful_compat/conflicts/dough_dupe_loop_ramadan.json).
@@ -225,7 +228,8 @@ We **merge** the matching `c:` umbrella into each tag (plain datapack tag-merge 
 Wheat-eaters (cow/sheep/goat/llama/horse) are left alone — no modded "grain" umbrella and no real gap. Shares
 the **same dependency as the compost fix**: an item only benefits if its mod tags it into `c:seeds` /
 `c:foods/vegetable`. If a specific seed works for neither composting nor breeding, that mod didn't tag it —
-add the id to `c:seeds` (fixes both at once). Guarded by `DatapackIntegrityTest#animalFoodTagsUnifyCategories`.
+add the id to [c/tags/item/seeds.json](src/main/resources/data/c/tags/item/seeds.json) (fixes both at once;
+done for `slavic_delight:cucumber_seeds` in 1.3.8). Guarded by `DatapackIntegrityTest#animalFoodTagsUnifyCategories`.
 
 ### Tag-membership unification (added 1.3.7)
 "Potato is a potato" for **tag-based** recipes. A duplicate group's items are only interchangeable in a
@@ -236,6 +240,7 @@ any equivalent occupies, so present-and-future members all join. Pure datapack t
 
 Current (sweet potato): [c/tags/item/foods/vegetable.json](src/main/resources/data/c/tags/item/foods/vegetable.json),
 [c/tags/item/crops.json](src/main/resources/data/c/tags/item/crops.json),
+[c/tags/item/crops/potato.json](src/main/resources/data/c/tags/item/crops/potato.json) (1.3.8 — parity, see below),
 [minecraft/tags/item/horse_food.json](src/main/resources/data/minecraft/tags/item/horse_food.json),
 [minecraft/tags/item/villager_plantable_seeds.json](src/main/resources/data/minecraft/tags/item/villager_plantable_seeds.json)
 — each merges `#c:crops/sweet_potato`. (Pig breeding is already covered: `pig_food` merges `#c:foods/vegetable`,
@@ -243,8 +248,13 @@ which now contains the group → camote, resolved transitively.)
 
 **Cooking-safety rule (same as recipe-interchange):** only unify a tag that is NOT a single-input cooking
 input (`minecraft:smelting`/`smoking`/`campfire_cooking`/`blasting`, `farmersdelight:cutting`). Expanding such
-a tag makes one input match many recipes → ambiguous output. The audit flags these: **`c:crops/potato`**
-(cutting: fries/diced) and **`c:foods/bread`** (cutting: bread_slice) are SKIPPED.
+a tag makes one input match many recipes → ambiguous output. The audit flags these as `[COOKING-INPUT: SKIP]`:
+**`c:crops/potato`** (cutting: fries/diced) and **`c:foods/bread`** (cutting: bread_slice).
+**Parity exception (1.3.8):** unify a cutting-input tag anyway when an equivalent is ALREADY in it — then the
+ambiguity pre-exists and skipping only makes the group inconsistent. `c:crops/potato` already contains
+`veggiesdelight:sweet_potato`, so we merge the group there too (camote subs for potato); cutting a camote may
+now yield potato_fries/diced rather than camote_cortado — an accepted trade for "sweet potato ≡ potato".
+`c:foods/bread` stays skipped (no group equivalent is in it).
 
 Re-run the audit when addons change: **`python tools/audit_tag_unification.py`** (reads the jars in
 `libs-dev/`; prints each group's category tags with `[COOKING-INPUT: SKIP]` flags). Other groups currently
@@ -317,9 +327,10 @@ cooking-unsafe, debuff (`c:foods/food_poisoning`), or rarely-used umbrella tags.
   potato into broad category tags (`c:foods/vegetable`, `c:crops`, `minecraft:horse_food`,
   `villager_plantable_seeds`) but Peruvian's barely tags camote at all — so e.g. `farmersdelight`'s
   `stuffed_pumpkin_block` (keyed on `c:foods/vegetable`) rejected camote. Fix = merge `#c:crops/sweet_potato`
-  into those category tags (see [Tag-membership unification](#tag-membership-unification-added-137)). Cooking
-  safety still applies: `c:crops/potato` is a **cutting input** (`potato_fries`, `diced_potatoes`) and camote
-  has its own cutting/cooking, so camote is deliberately NOT merged there.
+  into those category tags (see [Tag-membership unification](#tag-membership-unification-added-137)).
+  **`c:crops/potato` IS now unified too (1.3.8)** so camote subs for potato like Veggies' sweet_potato does —
+  even though it's a cutting input — because Veggies' sweet_potato already lives there (the cutting overlap
+  pre-exists) and the user wants sweet potato ≡ potato. See the cooking-safety parity exception below.
 - **`oaksdelight:butter` has no upstream recipe** (its `cooking/butter.json` is a mislabeled muffins
   dup); we ship a Cooking Pot butter recipe at that path. If oaksdelight fixes it, drop our override.
 - **A broken-recipe override must self-gate.** Because the override file ships in OUR jar, it is loaded

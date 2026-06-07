@@ -114,6 +114,15 @@ class DatapackIntegrityTest {
         assertTagMergesAt("/data/c/tags/item/crops.json", "#c:crops/sweet_potato");
         assertTagMergesAt("/data/minecraft/tags/item/horse_food.json", "#c:crops/sweet_potato");
         assertTagMergesAt("/data/minecraft/tags/item/villager_plantable_seeds.json", "#c:crops/sweet_potato");
+        // Sweet potato also subs for potato (c:crops/potato), matching Veggies' sweet_potato which lives there.
+        assertTagMergesAt("/data/c/tags/item/crops/potato.json", "#c:crops/sweet_potato");
+    }
+
+    @Test
+    void untaggedSeedsCrossPopulatedIntoCSeeds() throws Exception {
+        // Slavic Delight's cucumber_seeds ships in NO tags, so c:seeds-keyed mechanics (our compost data map
+        // and chicken/parrot breeding merge) missed it. We add it to c:seeds, fixing compost + breeding at once.
+        assertTagMergesAt("/data/c/tags/item/seeds.json", "slavic_delight:cucumber_seeds");
     }
 
     @Test
