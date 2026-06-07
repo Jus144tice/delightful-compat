@@ -1,0 +1,9 @@
+{
+  "__comment": "Delightful Compat: chickens read minecraft:chicken_food (Chicken#isFood). Vanilla lists only the 6 hard-coded seeds, so modded seeds (e.g. cucumber) can't breed them. Merge the common seed umbrella so every tagged seed breeds chickens. required:false self-guards when c:seeds is empty/absent.",
+  "values": [
+    {
+      "id": "#c:seeds",
+      "required": false
+    }
+  ]
+}

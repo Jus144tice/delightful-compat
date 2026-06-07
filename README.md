@@ -30,6 +30,12 @@ together in big modpacks by:
   composted (e.g. cucumber seeds). Delightful Compat ships a data map — keyed by common tags
   (`c:seeds`, `c:crops`, `minecraft:saplings`, `minecraft:leaves`) at vanilla chances — that merges with the
   builtin and makes tagged seeds/crops/plants compostable across every addon at once.
+- **Universalizing animal food** — in 1.21.1 an animal's breeding/feeding food is a vanilla item tag
+  (`minecraft:chicken_food`, `minecraft:pig_food`, …), but vanilla fills those with hard-coded items rather
+  than a common umbrella, so modded seeds/veg are rejected (e.g. cucumber seeds won't breed a chicken).
+  Delightful Compat merges the matching `c:` umbrella into each tag — `#c:seeds` into chicken/parrot food,
+  `#c:foods/vegetable` into pig food — so every seed breeds chickens and modded vegetables breed pigs, across
+  all addons at once.
 - **Cleaning up JEI** — hiding non-canonical duplicates and adding info pages that explain the
   unification.
 

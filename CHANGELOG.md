@@ -4,6 +4,25 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.6] - 2026-06-06
+
+### Fixed (animal breeding/feeding across all addons)
+- **Modded seeds now breed chickens (and tame parrots).** Reported gap: chickens couldn't be bred with
+  cucumber seeds. Root cause is the same shape as the compost bug — in 1.21.1 an animal's `isFood` reads a
+  vanilla item tag `minecraft:<animal>_food`, but vanilla fills those tags with **hard-coded items**, not a
+  common umbrella. `minecraft:chicken_food` lists only the 6 vanilla seeds, so any modded seed is rejected.
+- **Fix:** merge the matching `c:` umbrella into each vanilla food tag (plain datapack tag-merge,
+  `required:false` so it's harmless when a tag is empty/absent):
+  - `minecraft:chicken_food` += `#c:seeds` — every tagged seed breeds chickens
+  - `minecraft:parrot_food` += `#c:seeds` — every tagged seed tames parrots (parity)
+  - `minecraft:pig_food` += `#c:foods/vegetable` — modded vegetables breed pigs (vanilla pig diet is a
+    subset of this tag)
+- Wheat-eaters (cow/sheep/goat/llama/horse) are intentionally left alone — no modded "grain" umbrella and no
+  real gap. Pure datapack, no Java. Guarded by a new `DatapackIntegrityTest` case.
+- **Note:** like the compost fix, an item only benefits if its mod tags it into `c:seeds` /
+  `c:foods/vegetable`. If a specific item works for neither composting nor breeding, that mod didn't tag it —
+  drop its jar in `libs-dev/` (or name the item) and it'll be added explicitly.
+
 ## [1.3.5] - 2026-06-06
 
 ### Fixed (compostability across all addons)

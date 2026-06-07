@@ -79,6 +79,28 @@ class DatapackIntegrityTest {
     }
 
     @Test
+    void animalFoodTagsUnifyCategories() throws Exception {
+        // Animals read minecraft:<animal>_food tags (Chicken/Pig/Parrot#isFood). Vanilla lists hard-coded
+        // items, so modded seeds/veg of the same category don't breed them. We merge the common umbrella
+        // tag so e.g. every seed breeds chickens (the reported cucumber-seeds gap).
+        assertTagMerges("chicken_food", "#c:seeds");
+        assertTagMerges("parrot_food", "#c:seeds");
+        assertTagMerges("pig_food", "#c:foods/vegetable");
+    }
+
+    private static void assertTagMerges(String tag, String expectedEntry) throws Exception {
+        JsonObject t = readJson("/data/minecraft/tags/item/" + tag + ".json").getAsJsonObject();
+        boolean found = false;
+        for (JsonElement v : t.getAsJsonArray("values")) {
+            String id = v.isJsonObject() ? v.getAsJsonObject().get("id").getAsString() : v.getAsString();
+            if (expectedEntry.equals(id)) {
+                found = true;
+            }
+        }
+        assertTrue(found, "minecraft:" + tag + " must merge " + expectedEntry);
+    }
+
+    @Test
     void allShippedDataJsonParses() throws Exception {
         Path dataRoot = Path.of(resource("/data").toURI());
         try (Stream<Path> walk = Files.walk(dataRoot)) {

@@ -1,0 +1,9 @@
+{
+  "__comment": "Delightful Compat: pigs read minecraft:pig_food (Pig#isFood). Vanilla lists carrot/potato/beetroot only. c:foods/vegetable already contains exactly those plus modded vegetables, so merging it lets modded veg breed pigs (the same gap class as seeds for chickens). required:false self-guards when the tag is empty/absent.",
+  "values": [
+    {
+      "id": "#c:foods/vegetable",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "__comment": "Delightful Compat: parrots read minecraft:parrot_food (taming/feeding). Vanilla lists only the 6 hard-coded seeds, so modded seeds can't tame them. Merge the common seed umbrella for parity with chicken_food. required:false self-guards when c:seeds is empty/absent.",
+  "values": [
+    {
+      "id": "#c:seeds",
+      "required": false
+    }
+  ]
+}
