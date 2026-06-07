@@ -64,6 +64,21 @@ class DatapackIntegrityTest {
     }
 
     @Test
+    void compostablesDataMapUnifiesSeedTag() throws Exception {
+        // The compost fix is a NeoForge data map merged with the builtin (keyed by common plant tags),
+        // so every tagged seed/plant across the Delight addons composts even when an addon only used the
+        // deprecated ComposterBlock.COMPOSTABLES Java API (which the 1.21.1 composter no longer reads).
+        JsonObject map =
+                readJson("/data/neoforge/data_maps/item/compostables.json").getAsJsonObject();
+        JsonObject values = map.getAsJsonObject("values");
+        assertNotNull(values, "compostables data map must have a 'values' object");
+        assertTrue(values.has("#c:seeds"), "compostables must cover the #c:seeds tag (the reported gap)");
+        assertTrue(
+                values.getAsJsonObject("#c:seeds").get("chance").getAsDouble() == 0.3,
+                "seeds should compost at the vanilla 0.3 chance");
+    }
+
+    @Test
     void allShippedDataJsonParses() throws Exception {
         Path dataRoot = Path.of(resource("/data").toURI());
         try (Stream<Path> walk = Files.walk(dataRoot)) {

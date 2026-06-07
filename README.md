@@ -24,6 +24,12 @@ together in big modpacks by:
   dependency *is* installed and is dropped cleanly (no error) when it isn't. See the
   [changelog](CHANGELOG.md) for the per-addon list (`farmersknives`, `oaksdelight`, `casualnessdelight`,
   `brewinandchewin`, plus a genuine fix for `peruviansdelight:masa_picarones`).
+- **Restoring compostability** — in NeoForge 1.21.1 the composter reads compostability from the
+  `neoforge:compostables` data map, *not* the old `ComposterBlock.COMPOSTABLES` Java map (now deprecated and
+  ignored). Addons that still register through the Java map silently fail, so their seeds and plants can't be
+  composted (e.g. cucumber seeds). Delightful Compat ships a data map — keyed by common tags
+  (`c:seeds`, `c:crops`, `minecraft:saplings`, `minecraft:leaves`) at vanilla chances — that merges with the
+  builtin and makes tagged seeds/crops/plants compostable across every addon at once.
 - **Cleaning up JEI** — hiding non-canonical duplicates and adding info pages that explain the
   unification.
 

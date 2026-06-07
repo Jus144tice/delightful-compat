@@ -4,6 +4,24 @@ All notable changes to **Delightful Compat** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.5] - 2026-06-06
+
+### Fixed (compostability across all addons)
+- **Seeds (and other plant matter) are compostable again.** Reported gap: cucumber seeds couldn't be put in
+  a composter. Root cause is systemic — in NeoForge 1.21.1 `ComposterBlock` reads compostability from the
+  **`neoforge:compostables` data map**; the old `ComposterBlock.COMPOSTABLES` Java map is deprecated and no
+  longer consulted. Any Delight addon still registering compost values through that Java API silently has no
+  effect, so its seeds/crops/leaves won't compost.
+- **Fix:** a new data map (`data/neoforge/data_maps/item/compostables.json`) that merges with NeoForge's
+  builtin and re-declares compostability by **common tag**, so it covers every addon at once and stays safe
+  when a mod is absent (an empty tag just contributes nothing — no conditions needed):
+  - `#c:seeds` → 0.3 (`can_villager_compost`)  ·  `#c:crops` → 0.65  ·  `#minecraft:saplings` → 0.3  ·
+    `#minecraft:leaves` → 0.3 — all mirroring vanilla's own chances.
+- Pure datapack, no Java. Guarded by a new `DatapackIntegrityTest` case.
+- **Note:** this fixes any seed/plant that its mod tags into `c:seeds`/`c:crops` (the standard convention).
+  If a specific item still won't compost, its mod didn't tag it — drop the jar in `libs-dev/` (or name the
+  item) and it'll be added explicitly.
+
 ## [1.3.4] - 2026-06-06
 
 ### Added
